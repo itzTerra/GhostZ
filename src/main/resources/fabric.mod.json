@@ -1,0 +1,44 @@
+{
+	"schemaVersion": 1,
+	"id": "ghostz",
+	"version": "${version}",
+	"name": "GhostZ",
+	"description": "adds a Ghost Lantern item.",
+	"authors": [
+		"Terra"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/ghostz/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.terra.ghostz.GhostZMod"
+		],
+		"client": [
+			"com.terra.ghostz.GhostZModClient"
+		],
+		"fabric-datagen": [
+			"com.terra.ghostz.GhostZModDataGenerator"
+		]
+	},
+	"mixins": [
+		"ghostz.mixins.json",
+		{
+			"config": "ghostz.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.14.19",
+		"minecraft": "~1.19.4",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
