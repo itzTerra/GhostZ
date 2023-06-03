@@ -1,0 +1,10 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients":[
+        {"item": "ghostz:ghost_lantern"},
+        {"item": "minecraft:stick"}
+    ],
+    "result": {
+      "item": "ghostz:ghost_lantern_block"
+    }
+  }
