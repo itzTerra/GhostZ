@@ -1,3 +1,4 @@
 {
-    "block.ghostz.ghost_lantern_block": "§eGhost Lantern"
+    "itemGroup.ghostz.item_group": "GhostZ",
+    "block.ghostz.ghost_lantern": "§eGhost Lantern"
 }

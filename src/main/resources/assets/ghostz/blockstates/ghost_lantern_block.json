@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "hanging=false": { "model": "ghostz:block/ghost_lantern_block" },
-    "hanging=true": { "model": "ghostz:block/ghost_lantern_block_hanging" }
-  }
-}
