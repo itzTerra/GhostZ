@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+      " T ",
+      "LSL",
+      "III"
+    ],
+    "key": {
+      "I": {
+        "item": "minecraft:iron_ingot"
+      },
+      "L": {
+        "item": "minecraft:lapis_lazuli"
+      },
+      "S":{
+        "item": "minecraft:soul_lantern"
+      },
+      "T":{
+        "item": "minecraft:ghast_tear"
+      }
+    },
+    "result": {
+      "item": "ghostz:ghost_lantern"
+    }
+  }
