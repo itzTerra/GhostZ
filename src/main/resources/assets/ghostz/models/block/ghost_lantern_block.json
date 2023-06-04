@@ -486,6 +486,10 @@
 		"firstperson_lefthand": {
 			"translation": [1.5, 3, 0]
 		},
+		"ground": {
+			"translation": [0, 2, 0],
+			"scale": [0.75, 0.75, 0.75]
+		},
 		"gui": {
 			"translation": [0, 1, 0]
 		},

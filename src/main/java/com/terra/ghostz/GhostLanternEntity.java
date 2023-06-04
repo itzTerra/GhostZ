@@ -7,9 +7,9 @@ import net.minecraft.util.math.BlockPos;
 
 public class GhostLanternEntity extends BlockEntity {
     private int number = 7;
-    
+
     public GhostLanternEntity(BlockPos pos, BlockState state) {
-        super(GhostZMod.GHOST_LANTERN_ENTITY, pos, state);
+        super(GRegistry.GHOST_LANTERN_ENTITY, pos, state);
     }
 
     // Serialize the BlockEntity
@@ -17,7 +17,7 @@ public class GhostLanternEntity extends BlockEntity {
     public void writeNbt(NbtCompound nbt) {
         // Save the current value of the number to the nbt
         nbt.putInt("number", number);
- 
+
         super.writeNbt(nbt);
     }
 
@@ -25,7 +25,7 @@ public class GhostLanternEntity extends BlockEntity {
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-    
+
         number = nbt.getInt("number");
     }
 }
