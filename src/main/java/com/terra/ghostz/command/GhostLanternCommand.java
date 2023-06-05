@@ -8,6 +8,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.terra.ghostz.GRegistry;
+import com.terra.ghostz.GhostLantern;
 import com.terra.ghostz.GhostZ;
 import com.terra.ghostz.util.GUtil;
 
@@ -32,7 +33,7 @@ public class GhostLanternCommand {
         })
         .then(literal("setlevel")
             .then(argument("player", EntityArgumentType.players())
-                .then(argument("value", IntegerArgumentType.integer(1, GhostZ.CONFIG.getLevelCount())).executes((ctx) -> {
+                .then(argument("value", IntegerArgumentType.integer(1, GhostLantern.MAX_LEVEL)).executes((ctx) -> {
                     return setLevelCommand(ctx.getSource(), EntityArgumentType.getPlayer(ctx, "player"),
                             IntegerArgumentType.getInteger(ctx, "value"), ctx);
                 }))))
@@ -66,7 +67,7 @@ public class GhostLanternCommand {
         }
 
         int level = stack.getNbt().getInt("level");
-        if(level >= GhostZ.CONFIG.getLevelCount()) {
+        if(level >= GhostLantern.MAX_LEVEL) {
             throw INVALID_ITEM.create(stack);
         }
 

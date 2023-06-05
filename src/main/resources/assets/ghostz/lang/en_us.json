@@ -3,6 +3,7 @@
     "item.ghostz.ghost_lantern": "Ghost Lantern",
     "block.ghostz.ghost_lantern_block": "Placeable Ghost Lantern",
     "block.ghostz.wisp": "Lantern Wisp",
+    "tooltip.ghostz.canbeplaced": "Can be placed",
     "command.ghostz.exception.invaliditem": "Invalid item %s, need %s",
     "command.ghostz.setlevel": "%s is now level %s",
     "command.ghostz.setxp": "%s now has %s XP"

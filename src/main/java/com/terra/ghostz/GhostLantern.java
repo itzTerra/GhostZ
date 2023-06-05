@@ -1,5 +1,6 @@
 package com.terra.ghostz;
 
+import java.text.Normalizer.Form;
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
@@ -21,9 +22,9 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Property;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -32,6 +33,8 @@ import net.minecraft.world.event.GameEvent;
 public class GhostLantern extends BlockItem {
     @Nullable
     private String translationKey;
+
+    public static final int MAX_LEVEL = GhostZ.CONFIG.getLevelCount();
 
     public GhostLantern(Block block, Item.Settings settings) {
         super(block, settings);
@@ -47,7 +50,7 @@ public class GhostLantern extends BlockItem {
 
     @Override
     public ItemStack getDefaultStack() {
-        ItemStack stack = super.getDefaultStack();
+        ItemStack stack = new ItemStack(this);
         NbtCompound defaultNBT = new NbtCompound();
         defaultNBT.putInt("level", 1);
         defaultNBT.putInt("xp", 0);
@@ -146,10 +149,23 @@ public class GhostLantern extends BlockItem {
 
     @Override
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-        super.appendTooltip(stack, world, tooltip, context);
-
         NbtCompound nbt = stack.getNbt();
-        tooltip.add(Text.of("Level "+nbt.getInt("level")));
-        tooltip.add(Text.of("XP    "+nbt.getInt("xp")+"/"+nbt.getInt("xpnext")));
+        int level = nbt.getInt("level");
+
+        tooltip.add(Text.literal("Level ").formatted(Formatting.GRAY)
+            .append(Text.literal(""+level).formatted(Formatting.DARK_AQUA))
+            .append(Text.literal("/").formatted(Formatting.GRAY))
+            .append(Text.literal(""+MAX_LEVEL).formatted(Formatting.DARK_AQUA))
+            );
+        
+        if (level < MAX_LEVEL){
+            tooltip.add(Text.literal("XP ").formatted(Formatting.GRAY)
+            .append(Text.literal(""+nbt.getInt("xp")).formatted(Formatting.DARK_AQUA))
+            .append(Text.literal("/").formatted(Formatting.GRAY))
+            .append(Text.literal(""+nbt.getInt("xpnext")).formatted(Formatting.DARK_AQUA))
+            );
+        }else{
+            tooltip.add(Text.literal("Max Level").formatted(Formatting.DARK_AQUA));
+        }
     }
 }
