@@ -19,6 +19,7 @@ a lightweight mod for **Fabric**, Minecraft 1.19.4
 ### Possible improvements
 - Animated models / textures
 - Better Ghost Lantern tooltip
+- *(?) Add special keybinding for wisp-sucking instead of `SHIFT+RIGHTCLICK`*
 
 ## Issues & Suggestions
 - Create an issue or PR on [**GitHub**](https://github.com/itzTerra/GhostZ/).
