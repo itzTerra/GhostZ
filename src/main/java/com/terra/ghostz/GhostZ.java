@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.terra.ghostz.command.GhostLanternCommand;
 import com.terra.ghostz.config.GConfig;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.loader.api.FabricLoader;
@@ -33,10 +35,26 @@ public class GhostZ implements ModInitializer {
 
 		CONFIG = GConfig.loadConfig(new File(FabricLoader.getInstance().getConfigDir() + "/ghostz_config.json"));
 
+        GRegistry.init();
+
         ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(content -> {
             for (ItemConvertible item : GROUP_ITEMS) {
                 content.add(item);
             }
         });
+
+        CommandRegistrationCallback.EVENT.register(GhostLanternCommand::register);
+    }
+
+    public static void log(String message){
+        LOGGER.info("[GhostZ] "+message);
+    }
+
+    public static void warn(String message){
+        LOGGER.warn("[GhostZ] "+message);
+    }
+
+    public static void error(String message){
+        LOGGER.error("[GhostZ] "+message);
     }
 }

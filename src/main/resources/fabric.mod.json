@@ -16,13 +16,13 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.terra.ghostz.GhostZMod"
+			"com.terra.ghostz.GhostZ"
 		],
 		"client": [
-			"com.terra.ghostz.GhostZModClient"
+			"com.terra.ghostz.GhostZClient"
 		],
 		"fabric-datagen": [
-			"com.terra.ghostz.GhostZModDataGenerator"
+			"com.terra.ghostz.GhostZDataGenerator"
 		]
 	},
 	"mixins": [

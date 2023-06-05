@@ -1,10 +1,13 @@
 package com.terra.ghostz;
 
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -18,6 +21,8 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Property;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
@@ -46,7 +51,7 @@ public class GhostLantern extends BlockItem {
         NbtCompound defaultNBT = new NbtCompound();
         defaultNBT.putInt("level", 1);
         defaultNBT.putInt("xp", 0);
-        defaultNBT.putInt("nextLevelXP", GhostZ.CONFIG.initialXpReq);
+        defaultNBT.putInt("xpnext", GhostZ.CONFIG.levels.get(0).get("xpnext"));
         stack.setNbt(defaultNBT);
         return stack;
     }
@@ -139,4 +144,12 @@ public class GhostLantern extends BlockItem {
         return property.parse(name).map(value -> (BlockState)state.with(property, value)).orElse(state);
     }
 
+    @Override
+    public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+        super.appendTooltip(stack, world, tooltip, context);
+
+        NbtCompound nbt = stack.getNbt();
+        tooltip.add(Text.of("Level "+nbt.getInt("level")));
+        tooltip.add(Text.of("XP    "+nbt.getInt("xp")+"/"+nbt.getInt("xpnext")));
+    }
 }

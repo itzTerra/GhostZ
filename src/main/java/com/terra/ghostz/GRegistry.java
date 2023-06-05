@@ -1,5 +1,8 @@
 package com.terra.ghostz;
 
+import com.terra.ghostz.block.GhostLanternBlock;
+import com.terra.ghostz.block.Wisp;
+
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -24,7 +27,7 @@ public class GRegistry {
             new Identifier(GhostZ.MOD_ID, "ghost_lantern_block"),
             FabricBlockEntityTypeBuilder.create(GhostLanternEntity::new, GHOST_LANTERN_BLOCK).build());
 
-    public static final Block WISP = registerBlock("wisp", new Block(FabricBlockSettings.of(Material.DECORATION).sounds(BlockSoundGroup.CANDLE)
+    public static final Wisp WISP = registerBlock("wisp", new Wisp(FabricBlockSettings.of(Material.DECORATION).sounds(BlockSoundGroup.CANDLE)
             .noCollision().breakInstantly().dropsNothing().luminance(state -> {
                 return GhostZ.CONFIG.levels.get(state.get(Wisp.LEVEL)-1).get("luminance");
             })));
@@ -46,5 +49,9 @@ public class GRegistry {
         Registry.register(Registries.BLOCK, new Identifier(GhostZ.MOD_ID, id), block);
         registerItem(id, new BlockItem(block, itemSettings));
         return block;
+    }
+
+    public static void init(){
+        GhostZ.log("Adding to registry...");
     }
 }

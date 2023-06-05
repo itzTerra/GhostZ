@@ -15,6 +15,7 @@ public class GConfig {
 
     public int initialXpReq = 100;
     public float XpMultiplier = 1.5f;
+    public boolean manualXpReq = false;
 
     public ArrayList<Map<String, Integer>> levels = new ArrayList<>(){{
         add(new LinkedHashMap<>() {{
@@ -35,23 +36,43 @@ public class GConfig {
         }});
     }};
 
+    public int maxWisps;
+
+    public GConfig(){
+        init();
+    }
+
+    public void init(){
+        if (!manualXpReq){
+            int currXP = initialXpReq;
+            for (Map<String, Integer> level : levels) {
+                level.put("xpnext", currXP);
+                currXP *= XpMultiplier;
+            }
+        }
+
+        this.maxWisps = getMaxWisps();
+    }
+
     public int getMaxWisps(){
         int res = 1;
-
         for (Map<String,Integer> level : levels) {
             if (level.get("wisps") > res){
                 res = level.get("wisps");
             }
         }
-
         return res;
     }
+
+    public int getLevelCount(){
+        return levels.size();
+    };
 
     public boolean isValid(){
         if (levels.size() == 0){return false;}
 
         for (Map<String,Integer> level : levels) {
-            if (level.get("luminance") < 0 || level.get("wisps") < 1){
+            if (level.get("luminance") < 0 || level.get("wisps") < 1 || level.get("xpnext") < 0){
                 return false;
             }
         }
@@ -70,9 +91,10 @@ public class GConfig {
                     BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             ) {
                 config = GSON.fromJson(bufferedReader, GConfig.class);
+                config.init();
 
                 if (!config.isValid()){
-                    GhostZ.LOGGER.error("Invalid config, falling back to default...");
+                    GhostZ.error("Invalid config, falling back to default...");
                     config = new GConfig();
                 }
             } catch (IOException e) {

@@ -1,21 +1,27 @@
-package com.terra.ghostz;
+package com.terra.ghostz.block;
+
+import com.terra.ghostz.GhostZ;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 public class Wisp extends Block implements Waterloggable {
@@ -34,13 +40,14 @@ public class Wisp extends Block implements Waterloggable {
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.cuboid(0.45f, 0.45f, 0.45f, 0.55f, 0.55f, 0.55f);
+        return VoxelShapes.cuboid(0.40f, 0.40f, 0.40f, 0.60f, 0.60f, 0.60f);
     }
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
+        int level = ctx.getStack().getNbt().getInt("level");
         return (BlockState)this.getDefaultState()
-            .with(LEVEL, ctx.getStack().getNbt().getInt("level"))
+            .with(LEVEL, level > 0 ? level : 1)
             .with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
     }
 
@@ -57,4 +64,14 @@ public class Wisp extends Block implements Waterloggable {
  
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }
+
+    @Override
+    public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
+        if (!world.isClient()){
+            if (placer.isPlayer()){
+                placer.sendMessage(Text.of("NBT: "+ itemStack.getNbt().asString()+"\nBlockstate: "+state.toString()));
+            }
+        }
+    }
+
 }

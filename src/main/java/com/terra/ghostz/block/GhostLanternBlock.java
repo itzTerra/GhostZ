@@ -1,4 +1,6 @@
-package com.terra.ghostz;
+package com.terra.ghostz.block;
+
+import com.terra.ghostz.GhostLanternEntity;
 
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
