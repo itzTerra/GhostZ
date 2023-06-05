@@ -16,6 +16,10 @@ a lightweight mod for **Fabric**, Minecraft 1.19.4
 - add small graveyard world gen with naturally spawned **Ghost Lantern**
 - *...ghosts?*
 
+### Possible improvements
+- Animated models / textures
+- Better Ghost Lantern tooltip
+
 ## Issues & Suggestions
 - Create an issue or PR on [**GitHub**](https://github.com/itzTerra/GhostZ/).
 - DM me on [**Discord**](https://discordapp.com/users/273461148441903105/).
