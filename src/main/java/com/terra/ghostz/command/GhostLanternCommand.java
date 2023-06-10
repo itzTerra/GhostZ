@@ -7,10 +7,8 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
-import com.terra.ghostz.GRegistry;
-import com.terra.ghostz.GhostLantern;
-import com.terra.ghostz.GhostZ;
-import com.terra.ghostz.util.GUtil;
+import com.terra.ghostz.item.GhostLantern;
+import com.terra.ghostz.util.GRegistry;
 
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -49,11 +47,12 @@ public class GhostLanternCommand {
     private static int setLevelCommand(ServerCommandSource source, ServerPlayerEntity player, int level, CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
         ItemStack stack = player.getMainHandStack();
 
-        if (!GUtil.isGhostLantern(stack)) {
+        if (!(stack.getItem() instanceof GhostLantern)) {
             throw INVALID_ITEM.create(stack);
         }
 
-        stack.getOrCreateNbt().putInt("level", level);
+        GhostLantern.pingNBT(stack).putInt("level", level);
+        GhostLantern.onLevelChange(stack);
         source.sendFeedback(Text.translatable("command.ghostz.setlevel", stack.getName(), level), true);
 
         return 1;
@@ -62,18 +61,17 @@ public class GhostLanternCommand {
     private static int setPointCommand(ServerCommandSource source, ServerPlayerEntity player, int xp, CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
         ItemStack stack = player.getMainHandStack();
 
-        if (!GUtil.isGhostLantern(stack)) {
+        if (!(stack.getItem() instanceof GhostLantern)) {
             throw INVALID_ITEM.create(stack);
         }
 
-        int level = stack.getNbt().getInt("level");
+        int level = GhostLantern.pingNBT(stack).getInt("level");
         if(level >= GhostLantern.MAX_LEVEL) {
             throw INVALID_ITEM.create(stack);
         }
 
-        int maxXP = GhostZ.CONFIG.levels.get(level).get("xpnext");
-
-        stack.getOrCreateNbt().putInt("xp", Math.min(xp, maxXP));
+        stack.getOrCreateNbt().putInt("xp", xp);
+        GhostLantern.onXpChange(stack);
         source.sendFeedback(Text.translatable("command.ghostz.setxp",stack.getName(), xp), true);
 
         return 1;

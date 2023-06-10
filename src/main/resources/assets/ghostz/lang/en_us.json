@@ -6,5 +6,6 @@
     "tooltip.ghostz.canbeplaced": "Can be placed",
     "command.ghostz.exception.invaliditem": "Invalid item %s, need %s",
     "command.ghostz.setlevel": "%s is now level %s",
-    "command.ghostz.setxp": "%s now has %s XP"
+    "command.ghostz.setxp": "%s now has %s XP",
+    "message.ghostz.ghost_lantern_suck": "Sucked in %s wisp(s)"
 }

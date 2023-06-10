@@ -42,7 +42,7 @@ public class GConfig {
         init();
     }
 
-    public void init(){
+    private void init(){
         if (!manualXpReq){
             int currXP = initialXpReq;
             for (Map<String, Integer> level : levels) {
@@ -54,7 +54,7 @@ public class GConfig {
         this.maxWisps = getMaxWisps();
     }
 
-    public int getMaxWisps(){
+    private int getMaxWisps(){
         int res = 1;
         for (Map<String,Integer> level : levels) {
             if (level.get("wisps") > res){
@@ -67,6 +67,14 @@ public class GConfig {
     public int getLevelCount(){
         return levels.size();
     };
+
+    public int getNextXP(int level){
+        return levels.get(level-1).get("xpnext");
+    }
+
+    public int getWispCount(int level){
+        return levels.get(level-1).get("wisps");
+    }
 
     public boolean isValid(){
         if (levels.size() == 0){return false;}

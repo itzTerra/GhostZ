@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import com.terra.ghostz.command.GhostLanternCommand;
 import com.terra.ghostz.config.GConfig;
+import com.terra.ghostz.item.GhostLantern;
+import com.terra.ghostz.util.GRegistry;
+import com.terra.ghostz.util.ItemDroppedCallback;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -17,6 +20,8 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 
 public class GhostZ implements ModInitializer {
@@ -44,6 +49,15 @@ public class GhostZ implements ModInitializer {
         });
 
         CommandRegistrationCallback.EVENT.register(GhostLanternCommand::register);
+
+        ItemDroppedCallback.EVENT.register((itemstack, player) -> {
+            player.sendMessage(Text.literal("ITEM DROPPED"));
+            if (GhostLantern.isLantern(itemstack)){
+                GhostLantern.suckWisps(itemstack, player, player.getWorld(), false);
+            }
+        
+            return ActionResult.PASS;
+        });
     }
 
     public static void log(String message){

@@ -2,9 +2,7 @@ package com.terra.ghostz.block;
 
 import java.util.List;
 
-import com.terra.ghostz.GhostLantern;
-import com.terra.ghostz.GhostLanternEntity;
-
+import com.terra.ghostz.entity.GhostLanternEntity;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LanternBlock;
@@ -12,9 +10,7 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -41,25 +37,29 @@ public class GhostLanternBlock extends LanternBlock implements BlockEntityProvid
 
     @Override
     public void appendTooltip(ItemStack stack, BlockView world, List<Text> tooltip, TooltipContext context) {
-        NbtCompound nbt = stack.getNbt();
-        int level = nbt.getInt("level");
-
-        tooltip.add(Text.literal("Level ").formatted(Formatting.GRAY)
-            .append(Text.literal(""+level).formatted(Formatting.DARK_AQUA))
-            .append(Text.literal("/").formatted(Formatting.GRAY))
-            .append(Text.literal(""+GhostLantern.MAX_LEVEL).formatted(Formatting.DARK_AQUA))
-            );
+        // if (!stack.hasNbt()){
+        //     return;
+        // }
         
-        if (level < GhostLantern.MAX_LEVEL){
-            tooltip.add(Text.literal("XP ").formatted(Formatting.GRAY)
-            .append(Text.literal(""+nbt.getInt("xp")).formatted(Formatting.DARK_AQUA))
-            .append(Text.literal("/").formatted(Formatting.GRAY))
-            .append(Text.literal(""+nbt.getInt("xpnext")).formatted(Formatting.DARK_AQUA))
-            );
-        }else{
-            tooltip.add(Text.literal("Max Level").formatted(Formatting.DARK_AQUA));
-        }
+        // NbtCompound nbt = stack.getNbt();
+        // int level = nbt.getInt("level");
 
-        tooltip.add(Text.translatable("tooltip.ghostz.canbeplaced").formatted(Formatting.ITALIC, Formatting.DARK_GRAY));
+        // tooltip.add(Text.literal("Level ").formatted(Formatting.GRAY)
+        //     .append(Text.literal(""+level).formatted(Formatting.DARK_AQUA))
+        //     .append(Text.literal("/").formatted(Formatting.GRAY))
+        //     .append(Text.literal(""+GhostLantern.MAX_LEVEL).formatted(Formatting.DARK_AQUA))
+        //     );
+        
+        // if (level < GhostLantern.MAX_LEVEL){
+        //     tooltip.add(Text.literal("XP ").formatted(Formatting.GRAY)
+        //     .append(Text.literal(""+nbt.getInt("xp")).formatted(Formatting.DARK_AQUA))
+        //     .append(Text.literal("/").formatted(Formatting.GRAY))
+        //     .append(Text.literal(""+nbt.getInt("xpnext")).formatted(Formatting.DARK_AQUA))
+        //     );
+        // }else{
+        //     tooltip.add(Text.literal("Max Level").formatted(Formatting.DARK_AQUA));
+        // }
+
+        // tooltip.add(Text.translatable("tooltip.ghostz.canbeplaced").formatted(Formatting.ITALIC, Formatting.DARK_GRAY));
     }
 }
