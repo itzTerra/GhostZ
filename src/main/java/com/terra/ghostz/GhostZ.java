@@ -8,9 +8,10 @@ import org.slf4j.LoggerFactory;
 
 import com.terra.ghostz.command.GhostLanternCommand;
 import com.terra.ghostz.config.GConfig;
+import com.terra.ghostz.event.ItemDroppedCallback;
+import com.terra.ghostz.event.ItemRemovedCallback;
 import com.terra.ghostz.item.GhostLantern;
 import com.terra.ghostz.util.GRegistry;
-import com.terra.ghostz.util.ItemDroppedCallback;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -58,10 +59,17 @@ public class GhostZ implements ModInitializer {
         
             return ActionResult.PASS;
         });
+
+        ItemRemovedCallback.EVENT.register((msg) -> {
+            GhostZ.log(msg);
+        
+            return ActionResult.PASS;
+        });
     }
 
     public static void log(String message){
-        LOGGER.info("[GhostZ] "+message);
+        // LOGGER.info("[GhostZ] "+message);
+        LOGGER.info("(?) "+message);
     }
 
     public static void warn(String message){

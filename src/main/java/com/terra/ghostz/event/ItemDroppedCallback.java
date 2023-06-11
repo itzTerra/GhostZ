@@ -1,4 +1,4 @@
-package com.terra.ghostz.util;
+package com.terra.ghostz.event;
 
 import com.terra.ghostz.GhostZ;
 
@@ -13,7 +13,7 @@ public interface ItemDroppedCallback {
     Event<ItemDroppedCallback> EVENT = EventFactory.createArrayBacked(ItemDroppedCallback.class,
         (listeners) -> (itemstack, player) -> {
             for (ItemDroppedCallback listener : listeners) {
-                ActionResult result = listener.onDrop(itemstack, player);
+                ActionResult result = listener.action(itemstack, player);
                 GhostZ.log(result.toString());
  
                 if(result != ActionResult.PASS) {
@@ -24,5 +24,5 @@ public interface ItemDroppedCallback {
         return ActionResult.PASS;
     });
  
-    ActionResult onDrop(ItemStack stack, PlayerEntity player);
+    ActionResult action(ItemStack stack, PlayerEntity player);
 }

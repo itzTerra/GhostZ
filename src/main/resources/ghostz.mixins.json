@@ -3,7 +3,9 @@
 	"package": "com.terra.ghostz.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"PlayerEntityItemMixin"
+		"PlayerEntityItemMixin",
+        "PlayerInventoryMixin",
+        "InventoriesMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
