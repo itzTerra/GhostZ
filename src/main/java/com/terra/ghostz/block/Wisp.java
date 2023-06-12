@@ -71,14 +71,11 @@ public class Wisp extends Block implements Waterloggable, BlockEntityProvider {
         return ActionResult.SUCCESS;
     }
 
-    public static void printInfo(ItemStack stack, BlockState state, @Nullable LivingEntity player){
-        String info = "NBT: " + (stack.getNbt() != null ? stack.getNbt().asString() : "") + "\nBlockstate: " + state.toString();
-        GhostZ.log("=============== WISP INFO ==================\n"+info);
+    public static void printInfo(ItemStack stack, BlockState state, @Nullable PlayerEntity player){
+        GhostZ.log("=============== WISP INFO ==================\nBlockstate: " + state.toString());
         
-        player = player.isPlayer() ? (PlayerEntity) player : null;
-
-        if (player != null){
-            player.sendMessage(Text.literal(info).formatted(Formatting.GRAY));
+        if (player != null && player.isPlayer()){
+            player.sendMessage(Text.literal("Blockstate: " + state.toString()).formatted(Formatting.GRAY));
         }
     }
 
@@ -92,7 +89,7 @@ public class Wisp extends Block implements Waterloggable, BlockEntityProvider {
             entity.playerID = placer.getUuid();
             entity.lanternID = GhostLantern.pingNBT(itemStack).getUuid(GhostLantern.ID_TAG);
 
-            printInfo(itemStack, state, placer);
+            printInfo(itemStack, state, (PlayerEntity)placer);
         }
     }
 

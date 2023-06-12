@@ -57,7 +57,7 @@ public class GhostLantern extends BlockItem {
 
     // ################################ METHODS FOR CUSTOM FUNCTIONALITY FIRST ############################ 
 
-    public static void suckWisps(ItemStack lantern, PlayerEntity player, World world){
+    public static void suckWisps(ItemStack lantern, World world){
         NbtList positions = getWispPositions(lantern);
         int positionCount = positions.size();
         if (positionCount == 0){
@@ -70,10 +70,9 @@ public class GhostLantern extends BlockItem {
             world.setBlockState(blockPos, Blocks.AIR.getDefaultState(), Block.NOTIFY_LISTENERS);
         }
         positions.clear();
-        player.sendMessage(Text.translatable("message.ghostz.ghost_lantern_suck", positionCount).formatted(Formatting.GRAY), false);
     }
 
-    public static void suckWisps(ItemStack lantern, PlayerEntity player, World world, boolean withMsg){
+    public static void suckWisps(ItemStack lantern, World world, @Nullable PlayerEntity playerToMsg){
         NbtList positions = getWispPositions(lantern);
         int positionCount = positions.size();
         if (positionCount == 0){
@@ -86,8 +85,9 @@ public class GhostLantern extends BlockItem {
             world.setBlockState(blockPos, Blocks.AIR.getDefaultState(), Block.NOTIFY_LISTENERS);
         }
         positions.clear();
-        if (withMsg){
-            player.sendMessage(Text.translatable("message.ghostz.ghost_lantern_suck", positionCount).formatted(Formatting.GRAY), false);
+
+        if (playerToMsg != null && playerToMsg.isPlayer()){
+            playerToMsg.sendMessage(Text.translatable("message.ghostz.ghost_lantern_suck", positionCount).formatted(Formatting.GRAY), false);
         }
     }
     
@@ -204,14 +204,12 @@ public class GhostLantern extends BlockItem {
         ItemStack lantern = player.getStackInHand(hand);
         
         if (!world.isClient && player.isSneaking()){
-            suckWisps(lantern, player, world);
+            suckWisps(lantern, world, player);
             return new TypedActionResult<>(ActionResult.CONSUME, lantern);
         }
 
         return super.use(world, player, hand);
     }
-
-    
     
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {

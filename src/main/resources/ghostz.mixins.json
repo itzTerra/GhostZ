@@ -5,7 +5,8 @@
 	"mixins": [
 		"PlayerEntityItemMixin",
         "PlayerInventoryMixin",
-        "InventoriesMixin"
+        "InventoriesMixin",
+        "ScreenHandlerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

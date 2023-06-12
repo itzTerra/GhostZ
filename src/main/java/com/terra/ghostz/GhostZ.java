@@ -18,6 +18,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -51,17 +52,25 @@ public class GhostZ implements ModInitializer {
 
         CommandRegistrationCallback.EVENT.register(GhostLanternCommand::register);
 
-        ItemDroppedCallback.EVENT.register((itemstack, player) -> {
+        ItemDroppedCallback.EVENT.register((stack, player) -> {
             player.sendMessage(Text.literal("ITEM DROPPED"));
-            if (GhostLantern.isLantern(itemstack)){
-                GhostLantern.suckWisps(itemstack, player, player.getWorld(), false);
+            if (GhostLantern.isLantern(stack)){
+                GhostLantern.suckWisps(stack, player.getWorld(), player);
             }
         
             return ActionResult.PASS;
         });
 
-        ItemRemovedCallback.EVENT.register((msg) -> {
-            GhostZ.log(msg);
+        ItemRemovedCallback.EVENT.register((msg, stack, player) -> {
+            GhostZ.log(msg+" -- "+stack);
+
+            if (GhostLantern.isLantern(stack)){
+                if (player != null){
+                    GhostLantern.suckWisps(stack, player.getWorld(), player);
+                } else{
+                    GhostZ.log("PLAYER IS NULL");
+                }
+            }
         
             return ActionResult.PASS;
         });
