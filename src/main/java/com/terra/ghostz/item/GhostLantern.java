@@ -57,12 +57,18 @@ public class GhostLantern extends BlockItem {
 
     // ################################ METHODS FOR CUSTOM FUNCTIONALITY FIRST ############################ 
 
-    public static void suckWisps(ItemStack lantern, World world){
+    /**
+     * Removes wisp blocks based on their positions saved in lantern's Nbt
+     * @param lantern
+     * @param world
+     * @return number of removed wisps
+     */
+    public static int suckWisps(ItemStack lantern, World world){
+        if (world.isClient()) return 0;
+
         NbtList positions = getWispPositions(lantern);
         int positionCount = positions.size();
-        if (positionCount == 0){
-            return;
-        }
+        if (positionCount == 0) return 0;
 
         for (int i = 0; i < positionCount; i++){
             int[] nbt_pos = positions.getIntArray(i);
@@ -70,25 +76,25 @@ public class GhostLantern extends BlockItem {
             world.setBlockState(blockPos, Blocks.AIR.getDefaultState(), Block.NOTIFY_LISTENERS);
         }
         positions.clear();
+
+        return positionCount;
     }
 
-    public static void suckWisps(ItemStack lantern, World world, @Nullable PlayerEntity playerToMsg){
-        NbtList positions = getWispPositions(lantern);
-        int positionCount = positions.size();
-        if (positionCount == 0){
-            return;
-        }
-
-        for (int i = 0; i < positionCount; i++){
-            int[] nbt_pos = positions.getIntArray(i);
-            BlockPos blockPos = new BlockPos(nbt_pos[0], nbt_pos[1], nbt_pos[2]);
-            world.setBlockState(blockPos, Blocks.AIR.getDefaultState(), Block.NOTIFY_LISTENERS);
-        }
-        positions.clear();
+    /**
+     * Removes wisp blocks based on their positions saved in lantern's Nbt
+     * @param lantern
+     * @param world
+     * @param playerToMsg -- player to send a message to
+     * @return number of removed wisps
+     */
+    public static int suckWisps(ItemStack lantern, World world, @Nullable PlayerEntity playerToMsg){
+        int positionCount = suckWisps(lantern, world);
 
         if (playerToMsg != null && playerToMsg.isPlayer()){
             playerToMsg.sendMessage(Text.translatable("message.ghostz.ghost_lantern_suck", positionCount).formatted(Formatting.GRAY), false);
         }
+
+        return positionCount;
     }
     
 
@@ -99,6 +105,11 @@ public class GhostLantern extends BlockItem {
         world.setBlockState(blockPos, Blocks.AIR.getDefaultState(), Block.NOTIFY_LISTENERS);
     }
 
+    /**
+     * Makes sure lantern's Nbt is alive
+     * @param lantern
+     * @return
+     */
     public static NbtCompound pingNBT(ItemStack lantern) {
         if (lantern.isEmpty()) {
             return new NbtCompound();
@@ -175,13 +186,12 @@ public class GhostLantern extends BlockItem {
 
     public static void printLantern(ItemStack lantern){
         NbtCompound nbt = pingNBT(lantern);
-
-        GhostZ.log("=============== PRINT LANTERN NBT =============\n"+nbt);
-
         Entity h = lantern.getHolder();
         if (h != null && h.isPlayer()){
             PlayerEntity player = (PlayerEntity)h;
             player.sendMessage(Text.literal("Print Lantern NBT: "+nbt).formatted(Formatting.GRAY));
+        } else{
+            GhostZ.log("=============== PRINT LANTERN NBT =============\n"+nbt);
         }
     }
 

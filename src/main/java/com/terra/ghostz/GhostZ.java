@@ -52,26 +52,27 @@ public class GhostZ implements ModInitializer {
 
         CommandRegistrationCallback.EVENT.register(GhostLanternCommand::register);
 
+
         ItemDroppedCallback.EVENT.register((stack, player) -> {
-            player.sendMessage(Text.literal("ITEM DROPPED"));
-            if (GhostLantern.isLantern(stack)){
-                GhostLantern.suckWisps(stack, player.getWorld(), player);
+            if (!player.getWorld().isClient()){
+                // player.sendMessage(Text.literal("ITEM DROPPED"));
+
+                if (GhostLantern.isLantern(stack) && player != null){
+                    GhostLantern.suckWisps(stack, player.getWorld(), player);
+                }
             }
         
             return ActionResult.PASS;
         });
 
         ItemRemovedCallback.EVENT.register((msg, stack, player) -> {
-            GhostZ.log(msg+" -- "+stack);
+            if (!player.getWorld().isClient()){
+                GhostZ.log(msg+" -- "+stack);
 
-            if (GhostLantern.isLantern(stack)){
-                if (player != null){
+                if (GhostLantern.isLantern(stack) && player != null){
                     GhostLantern.suckWisps(stack, player.getWorld(), player);
-                } else{
-                    GhostZ.log("PLAYER IS NULL");
                 }
             }
-        
             return ActionResult.PASS;
         });
     }

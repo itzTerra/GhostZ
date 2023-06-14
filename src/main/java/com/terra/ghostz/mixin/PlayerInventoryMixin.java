@@ -25,10 +25,10 @@ public class PlayerInventoryMixin {
 	// 	ItemRemovedCallback.EVENT.invoker().action("PlayerInventory.remove");
     // }
 
-    @Inject(at = @At("RETURN"), method = "removeStack(II)Lnet/minecraft/item/ItemStack;")
-	private void onRemoveStack(int slot, int amount, CallbackInfoReturnable<ItemStack> info) {
-		ItemRemovedCallback.EVENT.invoker().action("PlayerInventory.removeStack", info.getReturnValue(), ((PlayerInventory)(Object)this).player);
-    }
+    // @Inject(at = @At("RETURN"), method = "removeStack(II)Lnet/minecraft/item/ItemStack;")
+	// private void onRemoveStack(int slot, int amount, CallbackInfoReturnable<ItemStack> info) {
+	// 	ItemRemovedCallback.EVENT.invoker().action("PlayerInventory.removeStack", info.getReturnValue(), ((PlayerInventory)(Object)this).player);
+    // }
 
     // @Inject(at = @At("HEAD"), method = "markDirty")
 	// private void odMarkDirty(CallbackInfo info) {

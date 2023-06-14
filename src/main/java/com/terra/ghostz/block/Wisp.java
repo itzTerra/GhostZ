@@ -67,15 +67,17 @@ public class Wisp extends Block implements Waterloggable, BlockEntityProvider {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        printInfo(player.getStackInHand(hand), state, player);
+        if (!world.isClient()){
+            printInfo(player.getStackInHand(hand), state, player);
+        }
         return ActionResult.SUCCESS;
     }
 
     public static void printInfo(ItemStack stack, BlockState state, @Nullable PlayerEntity player){
-        GhostZ.log("=============== WISP INFO ==================\nBlockstate: " + state.toString());
-        
         if (player != null && player.isPlayer()){
             player.sendMessage(Text.literal("Blockstate: " + state.toString()).formatted(Formatting.GRAY));
+        } else{
+            GhostZ.log("=============== WISP INFO ==================\nBlockstate: " + state.toString());
         }
     }
 
