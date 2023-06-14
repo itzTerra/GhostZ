@@ -1,12 +1,15 @@
 package com.terra.ghostz.mixin;
 
+import java.util.UUID;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.terra.ghostz.event.ItemRemovedCallback;
+import com.terra.ghostz.event.LanternRemovedCallback;
+import com.terra.ghostz.item.GhostLantern;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -16,7 +19,7 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 
 @Mixin(ScreenHandler.class)
-public abstract class ScreenHandlerMixin {
+public abstract class ScreenHandlerMixin {  
     @Redirect(
         method = "internalOnSlotClick",
         at = @At(
@@ -25,11 +28,16 @@ public abstract class ScreenHandlerMixin {
         ))
     private ItemStack redirectShiftClick(ScreenHandler screenHandler, PlayerEntity player, int slotIndex) {
         ItemStack stack = screenHandler.quickMove(player, slotIndex);
-
-        if (!player.getInventory().contains(stack)){
-            ItemRemovedCallback.EVENT.invoker().action("ScreenHandler.quickMove", stack, player);
-        }
         
+        if (stack.getItem() instanceof GhostLantern && !player.getInventory().contains(stack)){
+            UUID lanternID = GhostLantern.pingNBT(stack).getUuid(GhostLantern.ID_TAG);
+            var stacks = ((ScreenHandler)(Object)this).getStacks();
+            for (ItemStack itemStack : stacks) {
+                if (itemStack.getItem() instanceof GhostLantern && GhostLantern.pingNBT(itemStack).getUuid(GhostLantern.ID_TAG).equals(lanternID)){
+                    LanternRemovedCallback.EVENT.invoker().action("ScreenHandler.quickMove", itemStack, player);
+                }
+            }
+        }
         return stack;
     }
     
@@ -42,8 +50,9 @@ public abstract class ScreenHandlerMixin {
     private void onHotbarSwap(int slotIndex, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo info) {
         Slot slot = ((ScreenHandler)(Object)this).getSlot(slotIndex);
         PlayerInventory playerInventory = player.getInventory();
-        if (!slot.inventory.equals(playerInventory)){
-            ItemRemovedCallback.EVENT.invoker().action("ScreenHandler.swap", playerInventory.getStack(button), player);
+        ItemStack stack = playerInventory.getStack(button);
+        if (stack.getItem() instanceof GhostLantern && !slot.inventory.equals(playerInventory)){
+            LanternRemovedCallback.EVENT.invoker().action("ScreenHandler.swap", stack, player);
         }
     }
 
@@ -56,8 +65,9 @@ public abstract class ScreenHandlerMixin {
         ))
     private void onClickoutBlank(int slotIndex, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo info) {
         Slot slot = ((ScreenHandler)(Object)this).getSlot(slotIndex);
-        if (!slot.inventory.equals(player.getInventory())){
-            ItemRemovedCallback.EVENT.invoker().action("ScreenHandler.clickoutBlank", slot.getStack(), player);
+        ItemStack stack = slot.getStack();
+        if (stack.getItem() instanceof GhostLantern && !slot.inventory.equals(player.getInventory())){
+            LanternRemovedCallback.EVENT.invoker().action("ScreenHandler.clickoutBlank", stack, player);
         }
     }
 
@@ -70,8 +80,9 @@ public abstract class ScreenHandlerMixin {
         ))
     private void onClickoutSwap(int slotIndex, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo info) {
         Slot slot = ((ScreenHandler)(Object)this).getSlot(slotIndex);
-        if (!slot.inventory.equals(player.getInventory())){
-            ItemRemovedCallback.EVENT.invoker().action("ScreenHandler.clickoutSwap", ((ScreenHandler)(Object)this).getCursorStack(), player);
+        ItemStack stack = ((ScreenHandler)(Object)this).getCursorStack();
+        if (stack.getItem() instanceof GhostLantern && !slot.inventory.equals(player.getInventory())){
+            LanternRemovedCallback.EVENT.invoker().action("ScreenHandler.clickoutSwap", stack, player);
         }
     }
 
@@ -105,5 +116,33 @@ public abstract class ScreenHandlerMixin {
     //     if (!slot.inventory.equals(playerInventory)){
     //         ItemRemovedCallback.EVENT.invoker().action("ScreenHandler.clickQuickMove", playerInventory.getStack(button), player);
     //     }
+    // }
+
+    // @Redirect(
+    //     method = "insertItem", 
+    //     at = @At(
+    //         value = "INVOKE",
+    //         target = "Lnet/minecraft/screen/slot/Slot;setStack(Lnet/minecraft/item/ItemStack;)V",
+    //         ordinal = 0
+    //     ))
+    // private void onShiftClick1(Slot slot, ItemStack stack) {
+    //     PlayerEntity player = (PlayerEntity)stack.getHolder();
+    //     slot.setStack(stack.split(slot.getMaxItemCount()));
+    //     stack = slot.getStack();
+    //     ItemRemovedCallback.EVENT.invoker().action("ScreenHandler.insertItem", stack, player);
+    // }
+
+    // @Redirect(
+    //     method = "insertItem", 
+    //     at = @At(
+    //         value = "INVOKE",
+    //         target = "Lnet/minecraft/screen/slot/Slot;setStack(Lnet/minecraft/item/ItemStack;)V",
+    //         ordinal = 1
+    //     ))
+    // private void onShiftClick2(Slot slot, ItemStack stack) {
+    //     PlayerEntity player = (PlayerEntity)stack.getHolder();
+    //     slot.setStack(stack.split(stack.getCount()));
+    //     stack = slot.getStack();
+    //     ItemRemovedCallback.EVENT.invoker().action("ScreenHandler.insertItem", stack, player);
     // }
 }

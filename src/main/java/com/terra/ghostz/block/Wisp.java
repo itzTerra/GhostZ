@@ -64,7 +64,7 @@ public class Wisp extends Block implements Waterloggable, BlockEntityProvider {
         return VoxelShapes.cuboid(0.40f, 0.40f, 0.40f, 0.60f, 0.60f, 0.60f);
     }
 
-
+    // Debugging only
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient()){
@@ -87,11 +87,10 @@ public class Wisp extends Block implements Waterloggable, BlockEntityProvider {
             GhostLantern.addPosToNbt(itemStack, pos);
 
             WispEntity entity = (WispEntity) world.getBlockEntity(pos);
-            // entity.lantern = itemStack;
             entity.playerID = placer.getUuid();
             entity.lanternID = GhostLantern.pingNBT(itemStack).getUuid(GhostLantern.ID_TAG);
 
-            printInfo(itemStack, state, (PlayerEntity)placer);
+            // printInfo(itemStack, state, (PlayerEntity)placer);
         }
     }
 

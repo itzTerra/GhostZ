@@ -8,11 +8,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 
-public interface ItemRemovedCallback {
+public interface LanternRemovedCallback {
 
-    Event<ItemRemovedCallback> EVENT = EventFactory.createArrayBacked(ItemRemovedCallback.class,
+    Event<LanternRemovedCallback> EVENT = EventFactory.createArrayBacked(LanternRemovedCallback.class,
         (listeners) -> (msg, stack, player) -> {
-            for (ItemRemovedCallback listener : listeners) {
+            for (LanternRemovedCallback listener : listeners) {
                 ActionResult result = listener.action(msg, stack, player);
  
                 if(result != ActionResult.PASS) {

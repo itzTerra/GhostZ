@@ -1,20 +1,17 @@
 package com.terra.ghostz.event;
 
-import com.terra.ghostz.GhostZ;
-
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 
-public interface ItemDroppedCallback {
+public interface LanternDroppedCallback {
  
-    Event<ItemDroppedCallback> EVENT = EventFactory.createArrayBacked(ItemDroppedCallback.class,
+    Event<LanternDroppedCallback> EVENT = EventFactory.createArrayBacked(LanternDroppedCallback.class,
         (listeners) -> (itemstack, player) -> {
-            for (ItemDroppedCallback listener : listeners) {
+            for (LanternDroppedCallback listener : listeners) {
                 ActionResult result = listener.action(itemstack, player);
-                GhostZ.log(result.toString());
  
                 if(result != ActionResult.PASS) {
                     return result;

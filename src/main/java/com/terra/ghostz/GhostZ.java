@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import com.terra.ghostz.command.GhostLanternCommand;
 import com.terra.ghostz.config.GConfig;
-import com.terra.ghostz.event.ItemDroppedCallback;
-import com.terra.ghostz.event.ItemRemovedCallback;
+import com.terra.ghostz.event.LanternDroppedCallback;
+import com.terra.ghostz.event.LanternRemovedCallback;
 import com.terra.ghostz.item.GhostLantern;
 import com.terra.ghostz.util.GRegistry;
 
@@ -51,11 +51,11 @@ public class GhostZ implements ModInitializer {
         CommandRegistrationCallback.EVENT.register(GhostLanternCommand::register);
 
 
-        ItemDroppedCallback.EVENT.register((stack, player) -> {
-            if (!player.getWorld().isClient()){
+        LanternDroppedCallback.EVENT.register((stack, player) -> {
+            if (player != null && !player.getWorld().isClient()){
                 // player.sendMessage(Text.literal("ITEM DROPPED"));
 
-                if (GhostLantern.isLantern(stack) && player != null){
+                if (GhostLantern.isLantern(stack)){
                     GhostLantern.suckWisps(stack, player.getWorld(), player);
                 }
             }
@@ -63,11 +63,11 @@ public class GhostZ implements ModInitializer {
             return ActionResult.PASS;
         });
 
-        ItemRemovedCallback.EVENT.register((msg, stack, player) -> {
-            if (!player.getWorld().isClient()){
+        LanternRemovedCallback.EVENT.register((msg, stack, player) -> {
+            if (player != null && !player.getWorld().isClient()){
                 GhostZ.log(msg+" -- "+stack);
 
-                if (GhostLantern.isLantern(stack) && player != null){
+                if (GhostLantern.isLantern(stack)){
                     GhostLantern.suckWisps(stack, player.getWorld(), player);
                 }
             }

@@ -9,12 +9,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.terra.ghostz.event.ItemDroppedCallback;
+import com.terra.ghostz.event.LanternDroppedCallback;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityItemMixin {
 	@Inject(at = @At("HEAD"), method = "Lnet/minecraft/entity/player/PlayerEntity;dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;")
 	private void beforeStackDrop(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> info) {
-		ItemDroppedCallback.EVENT.invoker().action(stack, (PlayerEntity) (Object) this);
+		LanternDroppedCallback.EVENT.invoker().action(stack, (PlayerEntity) (Object) this);
     }
 }
