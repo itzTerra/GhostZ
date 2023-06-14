@@ -4,10 +4,7 @@
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
 		"PlayerEntityItemMixin",
-        "PlayerInventoryMixin",
-        "InventoriesMixin",
-        "ScreenHandlerMixin",
-        "PlayerScreenHandlerMixin"
+        "ScreenHandlerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

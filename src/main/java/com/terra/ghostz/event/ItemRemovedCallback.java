@@ -2,8 +2,6 @@ package com.terra.ghostz.event;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.terra.ghostz.GhostZ;
-
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.player.PlayerEntity;
