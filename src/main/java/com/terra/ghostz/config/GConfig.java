@@ -13,8 +13,8 @@ import java.util.LinkedHashMap;
 public class GConfig {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    public int initialXpReq = 100;
-    public float XpMultiplier = 1.5f;
+    public int initialXpReq = 75;
+    public float xpMultiplier = 2f;
     public boolean manualXpReq = false;
 
     public ArrayList<Map<String, Integer>> levels = new ArrayList<>(){{
@@ -47,7 +47,7 @@ public class GConfig {
             int currXP = initialXpReq;
             for (Map<String, Integer> level : levels) {
                 level.put("xpnext", currXP);
-                currXP *= XpMultiplier;
+                currXP *= xpMultiplier;
             }
         }
 

@@ -8,9 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.terra.ghostz.command.GhostLanternCommand;
 import com.terra.ghostz.config.GConfig;
-import com.terra.ghostz.event.LanternDroppedCallback;
-import com.terra.ghostz.event.LanternRemovedCallback;
-import com.terra.ghostz.item.GhostLantern;
 import com.terra.ghostz.util.GRegistry;
 
 import net.fabricmc.api.ModInitializer;
@@ -21,7 +18,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 
 public class GhostZ implements ModInitializer {
@@ -49,42 +45,25 @@ public class GhostZ implements ModInitializer {
         });
 
         CommandRegistrationCallback.EVENT.register(GhostLanternCommand::register);
-
-
-        LanternDroppedCallback.EVENT.register((stack, player) -> {
-            if (player != null && !player.getWorld().isClient()){
-                // player.sendMessage(Text.literal("ITEM DROPPED"));
-
-                if (GhostLantern.isLantern(stack)){
-                    GhostLantern.suckWisps(stack, player.getWorld(), player);
-                }
-            }
-        
-            return ActionResult.PASS;
-        });
-
-        LanternRemovedCallback.EVENT.register((msg, stack, player) -> {
-            if (player != null && !player.getWorld().isClient()){
-                GhostZ.log(msg+" -- "+stack);
-
-                if (GhostLantern.isLantern(stack)){
-                    GhostLantern.suckWisps(stack, player.getWorld(), player);
-                }
-            }
-            return ActionResult.PASS;
-        });
     }
 
-    public static void log(String message){
-        // LOGGER.info("[GhostZ] "+message);
-        LOGGER.info("(?) "+message);
+    public static void log(String... messages){
+        LOGGER.info("(?) "+String.join(" ", messages));
+    }
+
+    public static void log(String sep, boolean useSep, String... messages){
+        if (useSep){
+            LOGGER.info("(?) "+String.join(sep, messages));
+        } else{
+            LOGGER.info("(?) "+sep+" "+String.join(" ", messages));
+        }
     }
 
     public static void warn(String message){
-        LOGGER.warn("[GhostZ] "+message);
+        LOGGER.warn("(!) "+message);
     }
 
     public static void error(String message){
-        LOGGER.error("[GhostZ] "+message);
+        LOGGER.error("(!!!) "+message);
     }
 }

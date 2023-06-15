@@ -5,7 +5,8 @@
     "block.ghostz.wisp": "Lantern Wisp",
     "tooltip.ghostz.canbeplaced": "Can be placed",
     "command.ghostz.exception.invaliditem": "Invalid item %s, need %s",
-    "command.ghostz.setlevel": "%s is now level %s",
-    "command.ghostz.setxp": "%s now has %s XP",
-    "message.ghostz.ghost_lantern_suck": "Sucked in %s wisp(s)"
+    "command.ghostz.setlevel": "Set %s's level to %s",
+    "command.ghostz.setxp": "%s has now %s XP",
+    "message.ghostz.ghost_lantern_suck": "Sucked in %s wisp(s)",
+    "message.ghostz.ghost_lantern_levelup": "%s is now level %s"
 }
