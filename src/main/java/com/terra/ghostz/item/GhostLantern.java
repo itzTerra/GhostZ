@@ -98,7 +98,7 @@ public class GhostLantern extends BlockItem {
         int positionCount = suckWisps(lantern, world);
 
         if (playerToMsg != null && playerToMsg.isPlayer() && positionCount > 0){
-            playerToMsg.sendMessage(Text.translatable("message.ghostz.ghost_lantern_suck", positionCount).formatted(Formatting.GRAY), false);
+            playerToMsg.sendMessage(Text.translatable("message.ghostz.ghost_lantern_suck", positionCount).formatted(Formatting.GRAY), true);
         }
 
         return positionCount;
@@ -245,7 +245,7 @@ public class GhostLantern extends BlockItem {
         nbt.putInt(LEVEL_TAG, level);
 
         if (player != null && player.isPlayer()){
-            player.sendMessage(Text.translatable("message.ghostz.ghost_lantern_levelup").formatted(Formatting.GRAY));
+            player.sendMessage(Text.translatable("message.ghostz.ghost_lantern_levelup").formatted(Formatting.GRAY), true);
         }
     }
 

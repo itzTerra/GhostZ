@@ -1,9 +1,9 @@
 {
     "type": "minecraft:crafting_shapeless",
     "ingredients":[
-        {"item": "ghostz:ghost_lantern"}
+        {"item": "ghostz:ghost_lantern_block"}
     ],
     "result": {
-      "item": "ghostz:ghost_lantern_block"
+      "item": "ghostz:ghost_lantern"
     }
   }
