@@ -127,6 +127,7 @@ public class Wisp extends Block implements Waterloggable, BlockEntityProvider {
     }
 
     // ############################ WATERLOG STUFF ##################################
+    @SuppressWarnings("deprecation")
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         super.onStateReplaced(state, world, pos, newState, moved);
@@ -139,8 +140,8 @@ public class Wisp extends Block implements Waterloggable, BlockEntityProvider {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        int level = ctx.getStack().getNbt().getInt("level");
-        return (BlockState) this.getDefaultState().with(LEVEL, level > 0 ? level : 1).with(WATERLOGGED,
+        int level = ctx.getStack().getNbt().getInt(GhostLantern.LEVEL_TAG);
+        return (BlockState) this.getDefaultState().with(LEVEL, level).with(WATERLOGGED,
                 ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
     }
 
@@ -162,6 +163,7 @@ public class Wisp extends Block implements Waterloggable, BlockEntityProvider {
     // PARTICLES
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        // Similar to End Rod
         double d = (double) pos.getX() + 0.55 - (double) (random.nextFloat() * 0.1f);
         double e = (double) pos.getY() + 0.60 - (double) (random.nextFloat() * 0.1f);
         double f = (double) pos.getZ() + 0.55 - (double) (random.nextFloat() * 0.1f);

@@ -6,7 +6,8 @@
 		"GPlayerEntityMixin",
         "ScreenHandlerMixin",
         "LivingEntityMixin",
-        "PlayerInventoryAccessor"
+        "PlayerInventoryAccessor",
+        "GShapelessRecipeMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -1,19 +1,41 @@
 {
-    "type": "minecraft:block",
-    "pools": [
-      {
-        "rolls": 1,
-        "entries": [
-          {
-            "type": "minecraft:item",
-            "name": "ghostz:ghost_lantern"
-          }
-        ],
-        "conditions": [
-          {
-            "condition": "minecraft:survives_explosion"
-          }
-        ]
-      }
-    ]
-  }
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ghostz:ghost_lantern_block",
+          "functions": [
+            {
+              "function": "minecraft:copy_name",
+              "source": "block_entity"
+            },
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "uuid",
+                  "target": "BlockEntityTag.uuid",
+                  "op": "replace"
+                },
+                {
+                  "source": "level",
+                  "target": "BlockEntityTag.level",
+                  "op": "replace"
+                },
+                {
+                  "source": "xp",
+                  "target": "BlockEntityTag.xp",
+                  "op": "replace"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

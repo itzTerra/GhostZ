@@ -23,6 +23,7 @@ import net.minecraft.util.Identifier;
 public class GhostZ implements ModInitializer {
     public static final String MOD_ID = "ghostz";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final String CONFIG_PATH = FabricLoader.getInstance().getConfigDir() + "/ghostz_config.json";
 	public static GConfig CONFIG;
 
     private static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier(MOD_ID, "item_group"))
@@ -30,11 +31,16 @@ public class GhostZ implements ModInitializer {
 
     public static final ArrayList<ItemConvertible> GROUP_ITEMS = new ArrayList<>();
 
+
+    // public static final boolean TRINKETS_LOADED = FabricLoader.getInstance().isModLoaded("trinkets");
+    // not implementing it rn
+
+
     @Override
     public void onInitialize() {
         LOGGER.info("GhostZ initialization");
 
-		CONFIG = GConfig.loadConfig(new File(FabricLoader.getInstance().getConfigDir() + "/ghostz_config.json"));
+		CONFIG = GConfig.loadConfig(new File(CONFIG_PATH));
 
         GRegistry.init();
 

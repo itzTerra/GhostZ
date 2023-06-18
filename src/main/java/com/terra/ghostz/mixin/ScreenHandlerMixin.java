@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.util.collection.DefaultedList;
 
 @Mixin(ScreenHandler.class)
 public abstract class ScreenHandlerMixin {  
@@ -26,20 +27,24 @@ public abstract class ScreenHandlerMixin {
             target = "Lnet/minecraft/screen/ScreenHandler;quickMove(Lnet/minecraft/entity/player/PlayerEntity;I)Lnet/minecraft/item/ItemStack;"
         ))
     private ItemStack redirectShiftClick(ScreenHandler screenHandler, PlayerEntity player, int slotIndex) {
-        ItemStack stack = screenHandler.quickMove(player, slotIndex);
+        ItemStack movedStack = screenHandler.quickMove(player, slotIndex);
 
-        if (player == null || player.getWorld().isClient() || !GhostLantern.isLantern(stack) || player.getInventory().contains(stack)){
-            return stack;
+        if (player == null || 
+            player.getWorld().isClient() || 
+            !GhostLantern.isLantern(movedStack) || 
+            player.getInventory().contains(movedStack))
+        {
+            return movedStack;
         }
         
-        UUID lanternID = GhostLantern.pingNBT(stack).getUuid(GhostLantern.ID_TAG);
-        var stacks = ((ScreenHandler)(Object)this).getStacks();
-        for (ItemStack itemStack : stacks) {
-            if (GhostLantern.isLantern(stack) && GhostLantern.pingNBT(itemStack).getUuid(GhostLantern.ID_TAG).equals(lanternID)){
+        UUID lanternID = GhostLantern.pingNBT(movedStack).getUuid(GhostLantern.ID_TAG);
+        DefaultedList<ItemStack> inventoryStacks = screenHandler.getStacks();
+        for (ItemStack stack : inventoryStacks) {
+            if (GhostLantern.isLantern(stack) && GhostLantern.pingNBT(stack).getUuid(GhostLantern.ID_TAG).equals(lanternID)){
                 GhostLantern.suckWisps(stack, player.getWorld(), player);
             }
         }
-        return stack;
+        return movedStack;
     }
     
     @Inject(

@@ -3,7 +3,7 @@ package com.terra.ghostz.util;
 import com.terra.ghostz.GhostZ;
 import com.terra.ghostz.block.GhostLanternBlock;
 import com.terra.ghostz.block.Wisp;
-import com.terra.ghostz.entity.GhostLanternEntity;
+import com.terra.ghostz.entity.GhostLanternBlockEntity;
 import com.terra.ghostz.entity.WispEntity;
 import com.terra.ghostz.item.GhostLantern;
 
@@ -29,9 +29,9 @@ public class GRegistry {
     public static final GhostLanternBlock GHOST_LANTERN_BLOCK = registerBlock("ghost_lantern_block",
             new GhostLanternBlock(FabricBlockSettings.copy(Blocks.SOUL_LANTERN)), new FabricItemSettings().maxCount(1).rarity(Rarity.UNCOMMON));
 
-    public static final BlockEntityType<GhostLanternEntity> GHOST_LANTERN_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE,
+    public static final BlockEntityType<GhostLanternBlockEntity> GHOST_LANTERN_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE,
             new Identifier(GhostZ.MOD_ID, "ghost_lantern_block"),
-            FabricBlockEntityTypeBuilder.create(GhostLanternEntity::new, GHOST_LANTERN_BLOCK).build());
+            FabricBlockEntityTypeBuilder.create(GhostLanternBlockEntity::new, GHOST_LANTERN_BLOCK).build());
 
     public static final Wisp WISP = registerBlock("wisp", new Wisp(FabricBlockSettings.of(Material.DECORATION).sounds(BlockSoundGroup.CANDLE)
             .noCollision().breakInstantly().dropsNothing().luminance(state -> {

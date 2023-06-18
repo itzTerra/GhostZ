@@ -51,9 +51,9 @@ public class GhostLantern extends BlockItem {
     private String translationKey;
     
     public static final String ID_TAG = "uuid";
-    static final String LEVEL_TAG = "level";
-    static final String XP_TAG = "xp";
-    static final String WISP_POSITIONS_TAG = "wisps";
+    public static final String LEVEL_TAG = "level";
+    public static final String XP_TAG = "xp";
+    public static final String WISP_POSITIONS_TAG = "wisps";
     static final int DEFAULT_XP_NEXT = GhostZ.CONFIG.getNextXP(1);
     public static final int MAX_LEVEL = GhostZ.CONFIG.getLevelCount();
 
@@ -366,24 +366,38 @@ public class GhostLantern extends BlockItem {
     @Override
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
         NbtCompound nbt = pingNBT(stack);
-        int level = nbt.getInt(LEVEL_TAG);
+
+        addLevelTooltip(tooltip, nbt);
+
+        int maxWispCountForLevel = GhostZ.CONFIG.getWispCount(nbt.getInt(LEVEL_TAG));
         int wispCount = getWispPositions(nbt).size();
-        // printLantern(stack);
 
+        tooltip.add(Text.empty());
+        tooltip.add(Text.literal("Wisps ").formatted(Formatting.GRAY).append(Text.literal("" + wispCount).formatted(Formatting.DARK_AQUA))
+                .append(Text.literal("/").formatted(Formatting.GRAY)).append(Text.literal("" + maxWispCountForLevel).formatted(Formatting.DARK_AQUA)));
+    }
 
-        tooltip.add(Text.literal("Level ").formatted(Formatting.GRAY).append(Text.literal("" + level).formatted(Formatting.DARK_AQUA))
-                .append(Text.literal("/").formatted(Formatting.GRAY)).append(Text.literal("" + MAX_LEVEL).formatted(Formatting.DARK_AQUA)));
+    /**
+     * used by GhostLantern item (spawns wisps) and GhostLanternBlock blockitem (placeable lantern)
+     * @param tooltip
+     * @param nbt
+     */
+    public static void addLevelTooltip(List<Text> tooltip, NbtCompound nbt){
+        int level = nbt.getInt(LEVEL_TAG);
+
+        tooltip.add(Text.literal("Level ").formatted(Formatting.GRAY)
+            .append(Text.literal("" + level).formatted(Formatting.DARK_AQUA))
+            .append(Text.literal("/").formatted(Formatting.GRAY))
+            .append(Text.literal("" + MAX_LEVEL).formatted(Formatting.DARK_AQUA)));
 
         if (level < MAX_LEVEL) {
-            tooltip.add(Text.literal("XP ").formatted(Formatting.GRAY).append(Text.literal("" + nbt.getInt(XP_TAG)).formatted(Formatting.DARK_AQUA))
-                    .append(Text.literal("/").formatted(Formatting.GRAY))
-                    .append(Text.literal("" + GhostZ.CONFIG.getNextXP(level)).formatted(Formatting.DARK_AQUA)));
+            tooltip.add(Text.literal("XP ").formatted(Formatting.GRAY)
+                .append(Text.literal("" + nbt.getInt(XP_TAG)).formatted(Formatting.DARK_AQUA))
+                .append(Text.literal("/").formatted(Formatting.GRAY))
+                .append(Text.literal("" + GhostZ.CONFIG.getNextXP(level)).formatted(Formatting.DARK_AQUA)));
         } else {
             tooltip.add(Text.literal("Max Level").formatted(Formatting.DARK_AQUA));
         }
-        tooltip.add(Text.empty());
-        tooltip.add(Text.literal("Wisps ").formatted(Formatting.GRAY).append(Text.literal("" + wispCount).formatted(Formatting.DARK_AQUA))
-                .append(Text.literal("/").formatted(Formatting.GRAY)).append(Text.literal("" + GhostZ.CONFIG.getWispCount(level)).formatted(Formatting.DARK_AQUA)));
     }
 
 

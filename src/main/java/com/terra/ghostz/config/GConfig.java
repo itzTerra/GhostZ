@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class GConfig {
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-
+    // #################################### CONFIG VALUES ###################################
     public int initialXpReq = 75;
     public float xpMultiplier = 2f;
     public boolean manualXpReq = false;
@@ -35,6 +34,12 @@ public class GConfig {
             put("wisps", 20);
         }});
     }};
+
+    // public boolean enableTrinketsSlot = true;
+
+
+    // #################################### CONFIG FUNCTIONALITY ###################################
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public int maxWisps;
 
@@ -123,7 +128,7 @@ public class GConfig {
         ) {
             GSON.toJson(this, writer);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load config", e);
+            throw new RuntimeException("Failed to save config", e);
         }
     }
 }
