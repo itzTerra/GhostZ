@@ -1,26 +1,20 @@
 # GhostZ
-> *aka **Better Soul Lantern***
 
-a lightweight mod for **Fabric**, Minecraft 1.19.4
+a lightweight mod, currently only for **Fabric**, Minecraft **1.19.4**
 
-! *currently in development, cosmetic block only* !
-
-## Plans
-- add a unique item **Ghost Lantern**, which:
+## Features
+- unique item **Ghost Lantern**, which:
   - is an upgrade of vanilla **Soul Lantern**
-  - functions as a placeable **light source**
   - can place small **wisps** - temporary light sources, draining **souls meter**, wisps can be sucked all at once to restore the meter
   - **levels up** during your adventures (by killing mobs)
-  - gives **bonuses** to player while in inventory
-  - looks cool!
-- add small graveyard world gen with naturally spawned **Ghost Lantern**
+  - can be crafted into a placeable lantern
+
+
+## Plans
+- cooler visuals
+- add Haunted Graveyard/Crypt world gen with naturally spawning **Ghost Lanterns**
 - *...ghosts?*
 
-### Possible improvements
-- Animated models / textures
-- Better Ghost Lantern tooltip
-- *(?) Add special keybinding for wisp-sucking instead of `SHIFT+RIGHTCLICK`*
-- *(?) Add optional wisp decay timer (would probably cause lag)*
 
 ## Issues & Suggestions
 - Create an issue or PR on [**GitHub**](https://github.com/itzTerra/GhostZ/).
