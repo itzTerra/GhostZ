@@ -15,9 +15,10 @@ a lightweight mod, currently only for **Fabric**, Minecraft **1.19.4**
 - add Haunted Graveyard/Crypt world gen with naturally spawning **Ghost Lanterns**
 - *...ghosts?*
 
+> and more in [Discussions](https://github.com/itzTerra/GhostZ/discussions/3)
 
 ## Issues & Suggestions
-- Create an issue or PR on [**GitHub**](https://github.com/itzTerra/GhostZ/).
+- Create an Issue, PR or Discussion on [**GitHub**](https://github.com/itzTerra/GhostZ/).
 - DM me on [**Discord**](https://discordapp.com/users/273461148441903105/).
 
 ### Help welcome!
