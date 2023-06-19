@@ -1,7 +1,10 @@
-# GhostZ
+# <img src="resources/ghostz_icon_round.png" width="42" height="42" align="left"> GhostZ 
 
-GhostZ is a small lightweight **FabricMC** mod.  
-It adds a very unique **Ghost Lantern** item/block with which you will never need torches during your cave or stripmine sessions again!
+
+GhostZ is a small lightweight **FabricMC** mod. It adds a very unique **Ghost Lantern** item/block with which you will never need torches during your cave or stripmine sessions again!
+
+<img src="resources/cave.png" width="300" align="right">
+
 
 ## Dependencies
 - [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
@@ -16,6 +19,7 @@ It adds a very unique **Ghost Lantern** item/block with which you will never nee
   - **levels up** during your adventures (by killing mobs)
   - can be crafted into a placeable lantern
 
+> Learn more on [Wiki](https://github.com/itzTerra/GhostZ/wiki)
 
 ## Configuration, Modpacks & Balance
 You can configure and balance this mod through `config/ghostz.json` file.  
@@ -25,7 +29,8 @@ Feel free to use this mod in any modpack, it *shouldn't* break anything :).
 
 ## Plans
 - cooler visuals
-- add Haunted Graveyard/Crypt world gen with naturally spawning **Ghost Lanterns**
+- add Haunted Graveyard/Crypt structures with naturally spawning Ghost Lanterns
+- **Trinkets** support
 - *...ghosts?*
 
 > and more in [Discussions](https://github.com/itzTerra/GhostZ/discussions/3)
