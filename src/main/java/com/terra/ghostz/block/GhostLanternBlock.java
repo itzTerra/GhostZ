@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import com.terra.ghostz.GhostZ;
 import com.terra.ghostz.entity.GhostLanternBlockEntity;
 import com.terra.ghostz.item.GhostLantern;
+import com.terra.ghostz.util.GRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
@@ -93,13 +94,22 @@ public class GhostLanternBlock extends LanternBlock implements BlockEntityProvid
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         BlockState state = super.getPlacementState(ctx);
         if (state != null){
-            int level = BlockItem.getBlockEntityNbt(ctx.getStack()).getInt(GhostLantern.LEVEL_TAG);
+            NbtCompound nbt = BlockItem.getBlockEntityNbt(ctx.getStack());
+            if (nbt == null){
+                nbt = GhostLanternBlockEntity.getDefaultNbt();
+            }
+
+            int level = nbt.getInt(GhostLantern.LEVEL_TAG);
+
             return state.with(LEVEL, level);
         }
         return null;
     }
 
-    // ?????????????????? copied from shulkerbox and it seems to do nothing
+    // This one's weird (copied from ShulkerBoxBlock), 
+    // the entity seems to have default values when accessed here.
+    // Without it, middle clicking gives no EntityNbt tag at all (no tooltip),
+    // Ctrl+Middle-Click works always tho 
     @Override
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         ItemStack itemStack = super.getPickStack(world, pos, state);
@@ -107,6 +117,7 @@ public class GhostLanternBlock extends LanternBlock implements BlockEntityProvid
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof GhostLanternBlockEntity){
             GhostLanternBlockEntity lanternBlockEntity = (GhostLanternBlockEntity)blockEntity;
+            // GhostZ.log(lanternBlockEntity.lanternID+" | "+lanternBlockEntity.level+" | "+lanternBlockEntity.xp);
             lanternBlockEntity.setStackNbt(itemStack);
         }
         
@@ -116,7 +127,10 @@ public class GhostLanternBlock extends LanternBlock implements BlockEntityProvid
     @Override
     public void appendTooltip(ItemStack stack, BlockView world, List<Text> tooltip, TooltipContext context) {
         NbtCompound nbt = BlockItem.getBlockEntityNbt(stack);
-        if (nbt == null) return;
+        if (nbt == null){
+            nbt = GhostLanternBlockEntity.getDefaultNbt();
+            BlockItem.setBlockEntityNbt(stack, GRegistry.GHOST_LANTERN_BLOCK_ENTITY, nbt);
+        }
 
         GhostLantern.addLevelTooltip(tooltip, nbt);
 

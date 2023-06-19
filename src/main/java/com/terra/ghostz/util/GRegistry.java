@@ -48,6 +48,8 @@ public class GRegistry {
     public static final DefaultParticleType WISP_GLITTER = Registry.register(Registries.PARTICLE_TYPE, new Identifier(GhostZ.MOD_ID, "wisp_glitter"),
     FabricParticleTypes.simple());
 
+
+    
     public static <T extends Item> T registerItem(String id, T item) {
         GhostZ.GROUP_ITEMS.add(item);
         return Registry.register(Registries.ITEM, new Identifier(GhostZ.MOD_ID, id), item);

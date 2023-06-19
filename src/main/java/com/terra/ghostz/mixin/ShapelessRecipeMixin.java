@@ -19,7 +19,7 @@ import net.minecraft.recipe.ShapelessRecipe;
 import net.minecraft.registry.DynamicRegistryManager;
 
 @Mixin(ShapelessRecipe.class)
-public abstract class GShapelessRecipeMixin {
+public abstract class ShapelessRecipeMixin {
     @Shadow
     public abstract ItemStack getOutput(DynamicRegistryManager registryManager);
 

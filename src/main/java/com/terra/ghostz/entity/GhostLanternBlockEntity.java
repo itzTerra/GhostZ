@@ -28,9 +28,7 @@ public class GhostLanternBlockEntity extends BlockEntity implements Nameable{
 
     @Override
     public void writeNbt(NbtCompound nbt) {
-        if (lanternID != null){
-            nbt.putUuid(GhostLantern.ID_TAG, lanternID);
-        }
+        nbt.putUuid(GhostLantern.ID_TAG, lanternID != null ? lanternID : UUID.randomUUID());
         nbt.putInt(GhostLantern.LEVEL_TAG, level);
         nbt.putInt(GhostLantern.XP_TAG, xp);
 
@@ -41,13 +39,19 @@ public class GhostLanternBlockEntity extends BlockEntity implements Nameable{
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
 
-        if (nbt.containsUuid(GhostLantern.ID_TAG)){
-            lanternID = nbt.getUuid(GhostLantern.ID_TAG);
-        } else {
-            lanternID = UUID.randomUUID();
-        }
+        lanternID = nbt.containsUuid(GhostLantern.ID_TAG) ? nbt.getUuid(GhostLantern.ID_TAG) : UUID.randomUUID();
         level = nbt.getInt(GhostLantern.LEVEL_TAG);
         xp = nbt.getInt(GhostLantern.XP_TAG);
+    }
+
+
+    public static NbtCompound getDefaultNbt(){
+        NbtCompound nbt = new NbtCompound();
+        nbt.putUuid(GhostLantern.ID_TAG, UUID.randomUUID());
+        nbt.putInt(GhostLantern.LEVEL_TAG, 1);
+        nbt.putInt(GhostLantern.XP_TAG, 0);
+
+        return nbt;
     }
 
 

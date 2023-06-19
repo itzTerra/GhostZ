@@ -1,7 +1,5 @@
 package com.terra.ghostz.block;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.terra.ghostz.GhostZ;
 import com.terra.ghostz.entity.WispEntity;
 import com.terra.ghostz.item.GhostLantern;
@@ -22,15 +20,11 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
@@ -65,21 +59,14 @@ public class Wisp extends Block implements Waterloggable, BlockEntityProvider {
     }
 
     // Debugging only
-    @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (!world.isClient()){
-            printInfo(player.getStackInHand(hand), state, player);
-        }
-        return ActionResult.SUCCESS;
-    }
+    // @Override
+    // public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    //     if (!world.isClient()){
+    //         printWisp(player.getStackInHand(hand), state, player);
+    //     }
+    //     return ActionResult.SUCCESS;
+    // }
 
-    public static void printInfo(ItemStack stack, BlockState state, @Nullable PlayerEntity player){
-        if (player != null && player.isPlayer()){
-            player.sendMessage(Text.literal("Blockstate: " + state.toString()).formatted(Formatting.GRAY));
-        } else{
-            GhostZ.log("=============== WISP INFO ==================\nBlockstate: " + state.toString());
-        }
-    }
 
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
@@ -89,44 +76,46 @@ public class Wisp extends Block implements Waterloggable, BlockEntityProvider {
             WispEntity entity = (WispEntity) world.getBlockEntity(pos);
             entity.playerID = placer.getUuid();
             entity.lanternID = GhostLantern.pingNBT(itemStack).getUuid(GhostLantern.ID_TAG);
-
-            // printInfo(itemStack, state, (PlayerEntity)placer);
         }
     }
 
-    // NOT ON EXPLOSION, MAYBE EXPLOSION MIXIN?
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         super.onBreak(world, pos, state, player);
+        if (world.isClient) return;
 
-        WispEntity entity = (WispEntity) world.getBlockEntity(pos);
-        if (!(entity instanceof WispEntity) || entity.playerID == null || entity.lanternID == null) {
+        removeWispPos(world, pos);
+    }
+
+    // For explosions
+    @Override
+    public void onStacksDropped(BlockState state, ServerWorld world, BlockPos pos, ItemStack tool, boolean dropExperience) {
+        removeWispPos(world, pos);
+    }
+
+    private void removeWispPos(World world, BlockPos pos){
+        WispEntity wispEntity = (WispEntity) world.getBlockEntity(pos);
+        if (!(wispEntity instanceof WispEntity) || wispEntity.playerID == null || wispEntity.lanternID == null) {
             return;
         }
-        PlayerEntity placer = world.getPlayerByUuid(entity.playerID);
-        if (placer == null){
-            return;
-        }
+        PlayerEntity placer = world.getPlayerByUuid(wispEntity.playerID);
+        if (placer == null) return;
 
-        // placer.sendMessage(Text.literal("Saved ID: "+entity.lanternID));
         PlayerInventory inventory = placer.getInventory();
         for (int i = 0; i < inventory.size(); i++) {
             ItemStack stack = inventory.getStack(i);
             if (!stack.hasNbt()) continue;
             NbtCompound nbt = stack.getNbt();
 
-            if (nbt.containsUuid(GhostLantern.ID_TAG) && nbt.getUuid(GhostLantern.ID_TAG).equals(entity.lanternID)) {
-                // placer.sendMessage(Text.literal("Found:\n"+stack+" -- "+stack.getNbt()).formatted(Formatting.GREEN));
-                GhostLantern.removePosFromNbt(stack, pos);
+            if (nbt.containsUuid(GhostLantern.ID_TAG) && nbt.getUuid(GhostLantern.ID_TAG).equals(wispEntity.lanternID)) {
+                GhostLantern.removePosFromNbt(nbt, pos);
                 break;
             } 
-            // else{
-            //     placer.sendMessage(Text.literal(""+nbt).formatted(Formatting.RED));
-            // }
         }
     }
 
     // ############################ WATERLOG STUFF ##################################
+
     @SuppressWarnings("deprecation")
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {

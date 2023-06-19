@@ -70,7 +70,7 @@ public class GhostLantern extends BlockItem {
      * @return number of removed wisps
      */
     public static int suckWisps(ItemStack lantern, World world){
-        if (world.isClient()) return 0;
+        if (world.isClient) return 0;
 
         NbtList positions = getWispPositions(lantern);
         int positionCount = positions.size();
@@ -94,7 +94,7 @@ public class GhostLantern extends BlockItem {
      * @return number of removed wisps
      */
     public static int suckWisps(ItemStack lantern, World world, @Nullable PlayerEntity playerToMsg){
-        if (world.isClient()) return 0;
+        if (world.isClient) return 0;
         int positionCount = suckWisps(lantern, world);
 
         if (playerToMsg != null && playerToMsg.isPlayer() && positionCount > 0){
@@ -193,11 +193,15 @@ public class GhostLantern extends BlockItem {
         PlayerEntity player = (PlayerEntity) killer;
 
         ArrayList<ItemStack> lanterns = lanternsInInventory(player.getInventory());
-        if (lanterns.isEmpty()) return;
 
         for (ItemStack lantern : lanterns) {
             addXp(lantern, deadEntity.getXpToDrop(), player);
         }
+    }
+
+    public static void addXp(ItemStack lantern, int xp, PlayerEntity player){
+        NbtCompound nbt = pingNBT(lantern);
+        setXp(lantern, nbt.getInt(XP_TAG) + xp, nbt, player);
     }
 
     private static void setXp(ItemStack lantern, int xp, NbtCompound nbt, @Nullable PlayerEntity player){
@@ -206,7 +210,7 @@ public class GhostLantern extends BlockItem {
             return;
         }
 
-        int maxXP = GhostZ.CONFIG.levels.get(level).get("xpnext");
+        int maxXP = GhostZ.CONFIG.getNextXP(level);
         boolean levelChanged = false;
         while (xp >= maxXP){
             if (++level == MAX_LEVEL) {
@@ -216,7 +220,7 @@ public class GhostLantern extends BlockItem {
             }
 
             xp -= maxXP;
-            maxXP = GhostZ.CONFIG.levels.get(level).get("xpnext");
+            maxXP = GhostZ.CONFIG.getNextXP(level);
             levelChanged = true;
         } 
         if (levelChanged){
@@ -231,11 +235,6 @@ public class GhostLantern extends BlockItem {
         setXp(lantern, xp, nbt, null);
     }
 
-    public static void addXp(ItemStack lantern, int xp, PlayerEntity player){
-        NbtCompound nbt = pingNBT(lantern);
-        setXp(lantern, nbt.getInt(XP_TAG) + xp, nbt, player);
-    }
-
     public static void setLevel(ItemStack lantern, int level){
         NbtCompound nbt = GhostLantern.pingNBT(lantern);
         setLevel(lantern, level, nbt, null);
@@ -245,25 +244,20 @@ public class GhostLantern extends BlockItem {
         nbt.putInt(LEVEL_TAG, level);
 
         if (player != null && player.isPlayer()){
-            player.sendMessage(Text.translatable("message.ghostz.ghost_lantern_levelup").formatted(Formatting.GRAY), true);
+            player.sendMessage(Text.translatable("message.ghostz.ghost_lantern_levelup", lantern.getName(), level).formatted(Formatting.GRAY), true);
         }
     }
 
-    public static void printLantern(ItemStack lantern){
-        NbtCompound nbt = pingNBT(lantern);
-        GhostZ.log("=============== PRINT LANTERN NBT =============\n"+nbt);
-    }
 
+    // Called from Wisp
     public static void addPosToNbt(ItemStack lantern, BlockPos pos){
         getWispPositions(lantern).add(new NbtIntArray(new int[] { pos.getX(), pos.getY(), pos.getZ() }));
     }
 
-    public static void removePosFromNbt(ItemStack lantern, BlockPos pos){
-        var positions = getWispPositions(lantern);
-        // GhostZ.log("Removing "+pos+" from "+positions);
+    // Called from Wisp
+    public static void removePosFromNbt(NbtCompound nbt, BlockPos pos){
+        NbtList positions = getWispPositions(nbt);
         positions.remove(new NbtIntArray(new int[] { pos.getX(), pos.getY(), pos.getZ() }));
-
-        // printLantern(lantern);
     }
 
     // ########################################### OVERRIDES ######################################

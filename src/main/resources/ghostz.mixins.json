@@ -3,11 +3,11 @@
 	"package": "com.terra.ghostz.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"GPlayerEntityMixin",
+		"PlayerEntityMixin",
         "ScreenHandlerMixin",
         "LivingEntityMixin",
         "PlayerInventoryAccessor",
-        "GShapelessRecipeMixin"
+        "ShapelessRecipeMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
