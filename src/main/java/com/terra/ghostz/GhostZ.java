@@ -24,8 +24,8 @@ import net.minecraft.world.World;
 public class GhostZ implements ModInitializer {
     public static final String MOD_ID = "ghostz";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final String CONFIG_PATH = FabricLoader.getInstance().getConfigDir() + "/ghostz_config.json";
-    public static GConfig CONFIG;
+    public static final String CONFIG_PATH = FabricLoader.getInstance().getConfigDir() + "/ghostz.json";
+	public static GConfig CONFIG;
 
     public static final ArrayList<ItemConvertible> GROUP_ITEMS = new ArrayList<>();
 
@@ -42,6 +42,7 @@ public class GhostZ implements ModInitializer {
         GRegistry.init();
 
         CommandRegistrationCallback.EVENT.register(GhostLanternCommand::register);
+
 
         ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, origin, destination) -> {
             ArrayList<ItemStack> lanterns = GhostLantern.lanternsInInventory(player.getInventory());
