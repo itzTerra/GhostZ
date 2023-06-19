@@ -21,6 +21,7 @@ It adds a very unique **Ghost Lantern** item/block with which you will never nee
 You can configure and balance this mod through `config/ghostz.json` file.  
 Feel free to use this mod in any modpack, it *shouldn't* break anything :).
 
+<hr>
 
 ## Plans
 - cooler visuals
