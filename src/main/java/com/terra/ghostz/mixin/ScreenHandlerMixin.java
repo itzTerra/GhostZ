@@ -24,10 +24,10 @@ public abstract class ScreenHandlerMixin {
         method = "internalOnSlotClick",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/screen/ScreenHandler;quickMove(Lnet/minecraft/entity/player/PlayerEntity;I)Lnet/minecraft/item/ItemStack;"
+            target = "Lnet/minecraft/screen/ScreenHandler;transferSlot(Lnet/minecraft/entity/player/PlayerEntity;I)Lnet/minecraft/item/ItemStack;"
         ))
     private ItemStack redirectShiftClick(ScreenHandler screenHandler, PlayerEntity player, int slotIndex) {
-        ItemStack movedStack = screenHandler.quickMove(player, slotIndex);
+        ItemStack movedStack = screenHandler.transferSlot(player, slotIndex);
 
         if (player == null || 
             player.getWorld().isClient() || 

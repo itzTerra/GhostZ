@@ -292,9 +292,6 @@ public class GhostLantern extends BlockItem {
 
     @Override
     public ActionResult place(ItemPlacementContext context) {
-        if (!this.getBlock().isEnabled(context.getWorld().getEnabledFeatures())) {
-            return ActionResult.FAIL;
-        }
         if (!context.canPlace()) {
             return ActionResult.FAIL;
         }
