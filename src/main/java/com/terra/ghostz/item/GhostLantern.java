@@ -28,7 +28,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtIntArray;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
@@ -43,6 +42,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
@@ -433,7 +433,7 @@ public class GhostLantern extends BlockItem {
     @Override
     public String getTranslationKey() {
         if (this.translationKey == null) {
-            this.translationKey = Util.createTranslationKey("item", Registries.ITEM.getId(this));
+            this.translationKey = Util.createTranslationKey("item", Registry.ITEM.getId(this));
         }
         return this.translationKey;
     }
