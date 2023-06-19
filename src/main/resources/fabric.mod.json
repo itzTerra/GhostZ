@@ -3,13 +3,14 @@
 	"id": "ghostz",
 	"version": "${version}",
 	"name": "GhostZ",
-	"description": "adds a Ghost Lantern item.",
+	"description": "A lightweight mod currently adding a unique Ghost Lantern item for temporary light sources - wisps.",
 	"authors": [
 		"Terra"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/itzTerra/GhostZ",
+		"sources": "https://github.com/itzTerra/GhostZ",
+        "issues": "https://github.com/itzTerra/GhostZ/issues"
 	},
 	"license": "MIT",
 	"icon": "assets/ghostz/icon.png",
@@ -38,7 +39,5 @@
 		"java": ">=17",
 		"fabric-api": "*"
 	},
-	"suggests": {
-		"another-mod": "*"
-	}
+	"suggests": {}
 }
