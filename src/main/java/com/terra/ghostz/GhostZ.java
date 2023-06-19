@@ -17,7 +17,6 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -26,8 +25,6 @@ public class GhostZ implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static final String CONFIG_PATH = FabricLoader.getInstance().getConfigDir() + "/ghostz.json";
 	public static GConfig CONFIG;
-
-    public static final ArrayList<ItemConvertible> GROUP_ITEMS = new ArrayList<>();
 
     // public static final boolean TRINKETS_LOADED =
     // FabricLoader.getInstance().isModLoaded("trinkets");
