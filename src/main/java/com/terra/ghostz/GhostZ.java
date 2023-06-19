@@ -28,7 +28,7 @@ import net.minecraft.world.World;
 public class GhostZ implements ModInitializer {
     public static final String MOD_ID = "ghostz";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final String CONFIG_PATH = FabricLoader.getInstance().getConfigDir() + "/ghostz_config.json";
+    public static final String CONFIG_PATH = FabricLoader.getInstance().getConfigDir() + "/ghostz.json";
 	public static GConfig CONFIG;
 
     private static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier(MOD_ID, "item_group"))

@@ -41,7 +41,7 @@ public class GConfig {
     // #################################### CONFIG FUNCTIONALITY ###################################
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    public int maxWisps;
+    public transient int maxWisps;
 
     public GConfig(){
         init();
@@ -109,6 +109,7 @@ public class GConfig {
                 if (!config.isValid()){
                     GhostZ.error("Invalid config, falling back to default...");
                     config = new GConfig();
+                    config.saveConfig(file);
                 }
             } catch (IOException e) {
                 throw new RuntimeException("Failed to load config", e);
