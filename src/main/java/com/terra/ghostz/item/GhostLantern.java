@@ -72,6 +72,8 @@ public class GhostLantern extends BlockItem {
     public static int suckWisps(ItemStack lantern, World world){
         if (world.isClient) return 0;
 
+        GhostZ.log(lantern.getNbt().getUuid(ID_TAG)+"");
+
         NbtList positions = getWispPositions(lantern);
         int positionCount = positions.size();
         if (positionCount == 0) return 0;
@@ -85,6 +87,11 @@ public class GhostLantern extends BlockItem {
 
         return positionCount;
     }
+
+    // @Override
+    // public boolean allowNbtUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
+    //     return super.allowNbtUpdateAnimation(player, hand, oldStack, newStack);
+    // }
 
     /**
      * Removes wisp blocks based on their positions saved in lantern's Nbt

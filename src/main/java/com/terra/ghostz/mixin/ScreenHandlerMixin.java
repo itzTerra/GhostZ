@@ -13,6 +13,7 @@ import com.terra.ghostz.item.GhostLantern;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
@@ -20,6 +21,7 @@ import net.minecraft.util.collection.DefaultedList;
 
 @Mixin(ScreenHandler.class)
 public abstract class ScreenHandlerMixin {  
+    // Shift-click to chest
     @Redirect(
         method = "internalOnSlotClick",
         at = @At(
@@ -47,6 +49,7 @@ public abstract class ScreenHandlerMixin {
         return movedStack;
     }
     
+    // Swap with numbers
     @Inject(
         method = "internalOnSlotClick",
         at = @At(
@@ -69,6 +72,7 @@ public abstract class ScreenHandlerMixin {
         GhostLantern.suckWisps(stack, player.getWorld(), player);
     }
 
+    // Manual place to blank chest slot
     @Inject(
         method = "internalOnSlotClick",
         at = @At(
@@ -91,6 +95,7 @@ public abstract class ScreenHandlerMixin {
         GhostLantern.suckWisps(stack, player.getWorld(), player);
     }
 
+    // Manual place to occupied chest slot
     @Inject(
         method = "internalOnSlotClick",
         at = @At(
@@ -111,6 +116,23 @@ public abstract class ScreenHandlerMixin {
         }
 
         GhostLantern.suckWisps(stack, player.getWorld(), player);
+    }
+
+    // Creative Middle-mouse clone
+    @Redirect(
+        method = "internalOnSlotClick",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/screen/ScreenHandler;setCursorStack(Lnet/minecraft/item/ItemStack;)V",
+            ordinal = 5
+        ))
+    private void onClone(ScreenHandler screenHandler, ItemStack stack) {
+        if (GhostLantern.isLantern(stack)){
+            NbtCompound nbt = stack.getNbt();
+            nbt.putUuid(GhostLantern.ID_TAG, UUID.randomUUID());
+            GhostLantern.getWispPositions(nbt).clear();
+        }
+        screenHandler.setCursorStack(stack);
     }
 
 
