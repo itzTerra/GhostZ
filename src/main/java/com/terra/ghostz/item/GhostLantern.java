@@ -50,7 +50,7 @@ public class GhostLantern extends BlockItem {
     @Nullable
     private String translationKey;
     
-    public static final String ID_TAG = "uuid";
+    public static final String ID_TAG = "ghostzGhostLanternUuid";
     public static final String LEVEL_TAG = "level";
     public static final String XP_TAG = "xp";
     public static final String WISP_POSITIONS_TAG = "wisps";
@@ -259,6 +259,7 @@ public class GhostLantern extends BlockItem {
         NbtList positions = getWispPositions(nbt);
         positions.remove(new NbtIntArray(new int[] { pos.getX(), pos.getY(), pos.getZ() }));
     }
+
 
     // ########################################### OVERRIDES ######################################
 
