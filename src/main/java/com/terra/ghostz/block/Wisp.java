@@ -75,7 +75,7 @@ public class Wisp extends Block implements Waterloggable, BlockEntityProvider {
 
             WispEntity entity = (WispEntity) world.getBlockEntity(pos);
             entity.playerID = placer.getUuid();
-            entity.lanternID = GhostLantern.pingNBT(itemStack).getUuid(GhostLantern.ID_TAG);
+            entity.lanternID = GhostLantern.pingNbt(itemStack).getUuid(GhostLantern.ID_TAG);
         }
     }
 

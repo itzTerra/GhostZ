@@ -14,7 +14,7 @@ import net.minecraft.util.Formatting;
 
 public class Debugging {
     public static void printLantern(ItemStack lantern){
-        NbtCompound nbt = GhostLantern.pingNBT(lantern);
+        NbtCompound nbt = GhostLantern.pingNbt(lantern);
         GhostZ.log("=============== LANTERN NBT =============\n"+nbt);
     }
 
