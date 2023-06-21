@@ -29,6 +29,17 @@ public abstract class ScreenHandlerMixin {
             target = "Lnet/minecraft/screen/ScreenHandler;quickMove(Lnet/minecraft/entity/player/PlayerEntity;I)Lnet/minecraft/item/ItemStack;"
         ))
     private ItemStack redirectShiftClick(ScreenHandler screenHandler, PlayerEntity player, int slotIndex) {
+        // Why is this creative stuff client-side?
+        // if (player.isCreative()){
+        //     Slot slot2;
+        //     if (slotIndex >= screenHandler.slots.size() - 9 && slotIndex < screenHandler.slots.size() && (slot2 = (Slot)screenHandler.slots.get(slotIndex)) != null && slot2.hasStack()) {
+        //         ItemStack oldStack = slot2.getStack();
+        //         if (GhostLantern.isLantern(oldStack)){
+        //             GhostLantern.suckWisps(oldStack, player.getWorld(), player);
+        //         }
+        //     }
+        // }
+
         ItemStack movedStack = screenHandler.quickMove(player, slotIndex);
 
         if (player == null || 
@@ -39,10 +50,10 @@ public abstract class ScreenHandlerMixin {
             return movedStack;
         }
         
-        UUID lanternID = GhostLantern.pingNBT(movedStack).getUuid(GhostLantern.ID_TAG);
+        UUID lanternID = GhostLantern.pingNbt(movedStack).getUuid(GhostLantern.ID_TAG);
         DefaultedList<ItemStack> inventoryStacks = screenHandler.getStacks();
         for (ItemStack stack : inventoryStacks) {
-            if (GhostLantern.isLantern(stack) && GhostLantern.pingNBT(stack).getUuid(GhostLantern.ID_TAG).equals(lanternID)){
+            if (GhostLantern.isLantern(stack) && GhostLantern.pingNbt(stack).getUuid(GhostLantern.ID_TAG).equals(lanternID)){
                 GhostLantern.suckWisps(stack, player.getWorld(), player);
             }
         }
