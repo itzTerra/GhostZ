@@ -13,6 +13,7 @@ import com.terra.ghostz.item.GhostLantern;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
@@ -20,6 +21,7 @@ import net.minecraft.util.collection.DefaultedList;
 
 @Mixin(ScreenHandler.class)
 public abstract class ScreenHandlerMixin {  
+    // Shift-click to chest
     @Redirect(
         method = "internalOnSlotClick",
         at = @At(
@@ -27,6 +29,17 @@ public abstract class ScreenHandlerMixin {
             target = "Lnet/minecraft/screen/ScreenHandler;quickMove(Lnet/minecraft/entity/player/PlayerEntity;I)Lnet/minecraft/item/ItemStack;"
         ))
     private ItemStack redirectShiftClick(ScreenHandler screenHandler, PlayerEntity player, int slotIndex) {
+        // Why is this creative stuff client-side?
+        // if (player.isCreative()){
+        //     Slot slot2;
+        //     if (slotIndex >= screenHandler.slots.size() - 9 && slotIndex < screenHandler.slots.size() && (slot2 = (Slot)screenHandler.slots.get(slotIndex)) != null && slot2.hasStack()) {
+        //         ItemStack oldStack = slot2.getStack();
+        //         if (GhostLantern.isLantern(oldStack)){
+        //             GhostLantern.suckWisps(oldStack, player.getWorld(), player);
+        //         }
+        //     }
+        // }
+
         ItemStack movedStack = screenHandler.quickMove(player, slotIndex);
 
         if (player == null || 
@@ -37,16 +50,17 @@ public abstract class ScreenHandlerMixin {
             return movedStack;
         }
         
-        UUID lanternID = GhostLantern.pingNBT(movedStack).getUuid(GhostLantern.ID_TAG);
+        UUID lanternID = GhostLantern.pingNbt(movedStack).getUuid(GhostLantern.ID_TAG);
         DefaultedList<ItemStack> inventoryStacks = screenHandler.getStacks();
         for (ItemStack stack : inventoryStacks) {
-            if (GhostLantern.isLantern(stack) && GhostLantern.pingNBT(stack).getUuid(GhostLantern.ID_TAG).equals(lanternID)){
+            if (GhostLantern.isLantern(stack) && GhostLantern.pingNbt(stack).getUuid(GhostLantern.ID_TAG).equals(lanternID)){
                 GhostLantern.suckWisps(stack, player.getWorld(), player);
             }
         }
         return movedStack;
     }
     
+    // Swap with numbers
     @Inject(
         method = "internalOnSlotClick",
         at = @At(
@@ -69,6 +83,7 @@ public abstract class ScreenHandlerMixin {
         GhostLantern.suckWisps(stack, player.getWorld(), player);
     }
 
+    // Manual place to blank chest slot
     @Inject(
         method = "internalOnSlotClick",
         at = @At(
@@ -91,6 +106,7 @@ public abstract class ScreenHandlerMixin {
         GhostLantern.suckWisps(stack, player.getWorld(), player);
     }
 
+    // Manual place to occupied chest slot
     @Inject(
         method = "internalOnSlotClick",
         at = @At(
@@ -111,6 +127,23 @@ public abstract class ScreenHandlerMixin {
         }
 
         GhostLantern.suckWisps(stack, player.getWorld(), player);
+    }
+
+    // Creative Middle-mouse clone
+    @Redirect(
+        method = "internalOnSlotClick",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/screen/ScreenHandler;setCursorStack(Lnet/minecraft/item/ItemStack;)V",
+            ordinal = 5
+        ))
+    private void onClone(ScreenHandler screenHandler, ItemStack stack) {
+        if (GhostLantern.isLantern(stack)){
+            NbtCompound nbt = stack.getNbt();
+            nbt.putUuid(GhostLantern.ID_TAG, UUID.randomUUID());
+            GhostLantern.getWispPositions(nbt).clear();
+        }
+        screenHandler.setCursorStack(stack);
     }
 
 

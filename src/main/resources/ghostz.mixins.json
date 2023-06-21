@@ -7,7 +7,9 @@
         "ScreenHandlerMixin",
         "LivingEntityMixin",
         "PlayerInventoryAccessor",
-        "ShapelessRecipeMixin"
+        "PlayerInventoryMixin",
+        "ShapelessRecipeMixin",
+        "ItemFrameEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

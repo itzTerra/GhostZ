@@ -29,7 +29,7 @@ Feel free to use this mod in any modpack, it *shouldn't* break anything :).
 
 ## Plans
 - cooler visuals
-- add Haunted Graveyard/Crypt structures with naturally spawning Ghost Lanterns
+- Haunted Graveyard/Crypt structures with naturally spawning Ghost Lanterns
 - **Trinkets** support
 - *...ghosts?*
 

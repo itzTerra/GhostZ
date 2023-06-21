@@ -30,7 +30,7 @@ public abstract class ShapelessRecipeMixin {
 
             if (stack.getItem() instanceof GhostLantern){
                 ItemStack placeableLantern = this.getOutput(dynamicRegistryManager).copy();
-                NbtCompound lanternNbt = GhostLantern.pingNBT(stack);
+                NbtCompound lanternNbt = GhostLantern.pingNbt(stack);
 
                 NbtCompound placeableBlockEntityNbt = new NbtCompound();
                 placeableBlockEntityNbt.putUuid(GhostLantern.ID_TAG, lanternNbt.getUuid(GhostLantern.ID_TAG));
@@ -51,7 +51,7 @@ public abstract class ShapelessRecipeMixin {
                 lanternNbt.putUuid(GhostLantern.ID_TAG, placeableNbt.getUuid(GhostLantern.ID_TAG));
                 lanternNbt.putInt(GhostLantern.LEVEL_TAG, placeableNbt.getInt(GhostLantern.LEVEL_TAG));
                 lanternNbt.putInt(GhostLantern.XP_TAG, placeableNbt.getInt(GhostLantern.XP_TAG));
-                GhostLantern.pingNBT(lantern);
+                GhostLantern.pingNbt(lantern);
                 
                 if (stack.hasCustomName()) {
                     lantern.setCustomName(stack.getName());
