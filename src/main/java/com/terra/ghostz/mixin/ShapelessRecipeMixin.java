@@ -16,20 +16,19 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.ShapelessRecipe;
-import net.minecraft.registry.DynamicRegistryManager;
 
 @Mixin(ShapelessRecipe.class)
 public abstract class ShapelessRecipeMixin {
     @Shadow
-    public abstract ItemStack getOutput(DynamicRegistryManager registryManager);
+    public abstract ItemStack getOutput();
 
     @Inject(method = "craft", at = @At("HEAD"), cancellable = true)
-    private void onCraft(CraftingInventory craftingInventory, DynamicRegistryManager dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir) {
+    private void onCraft(CraftingInventory craftingInventory, CallbackInfoReturnable<ItemStack> cir) {
         for (int i = 0; i < craftingInventory.size(); i++){
             ItemStack stack = craftingInventory.getStack(i);
 
             if (stack.getItem() instanceof GhostLantern){
-                ItemStack placeableLantern = this.getOutput(dynamicRegistryManager).copy();
+                ItemStack placeableLantern = this.getOutput().copy();
                 NbtCompound lanternNbt = GhostLantern.pingNbt(stack);
 
                 NbtCompound placeableBlockEntityNbt = new NbtCompound();
@@ -44,7 +43,7 @@ public abstract class ShapelessRecipeMixin {
 
                 cir.setReturnValue(placeableLantern);
             } else if (Block.getBlockFromItem(stack.getItem()) instanceof GhostLanternBlock){
-                ItemStack lantern = this.getOutput(dynamicRegistryManager).copy();
+                ItemStack lantern = this.getOutput().copy();
                 NbtCompound placeableNbt = BlockItem.getBlockEntityNbt(stack);
                 
                 NbtCompound lanternNbt = lantern.getOrCreateNbt();
