@@ -52,7 +52,7 @@ public class GhostLanternCommand {
         }
 
         GhostLantern.setLevel(stack, level);
-        source.sendFeedback(Text.translatable("command.ghostz.setlevel", stack.getName(), level), true);
+        source.sendFeedback(() -> Text.translatable("command.ghostz.setlevel", stack.getName(), level), true);
 
         return 1;
     }
@@ -64,7 +64,7 @@ public class GhostLanternCommand {
         }
 
         GhostLantern.setXp(stack, xp);
-        source.sendFeedback(Text.translatable("command.ghostz.setxp", stack.getName(), xp), true);
+        source.sendFeedback(() -> Text.translatable("command.ghostz.setxp", stack.getName(), xp), true);
 
         return 1;
     }

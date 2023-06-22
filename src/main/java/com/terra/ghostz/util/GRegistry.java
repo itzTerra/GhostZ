@@ -1,5 +1,7 @@
 package com.terra.ghostz.util;
 
+import java.util.ArrayList;
+
 import com.terra.ghostz.GhostZ;
 import com.terra.ghostz.block.GhostLanternBlock;
 import com.terra.ghostz.block.Wisp;
@@ -8,25 +10,40 @@ import com.terra.ghostz.entity.WispEntity;
 import com.terra.ghostz.item.GhostLantern;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 
 public class GRegistry {
     
-    public static final Wisp WISP = registerBlock("wisp", new Wisp(FabricBlockSettings.of(Material.DECORATION).sounds(BlockSoundGroup.CANDLE)
+    private static final Identifier ITEM_GROUP_IDENTIFIER = new Identifier(GhostZ.MOD_ID, "item_group");
+    private static final ItemGroup ITEM_GROUP = Registry.register(Registries.ITEM_GROUP, 
+        ITEM_GROUP_IDENTIFIER, 
+        FabricItemGroup.builder()
+            .icon(() -> new ItemStack(GRegistry.GHOST_LANTERN_BLOCK))
+            .displayName(Text.translatable("itemGroup.ghostz.item_group"))
+            .build()
+    );
+
+    public static final Wisp WISP = registerBlock("wisp", new Wisp(FabricBlockSettings.copyOf(Material.DECORATION).sounds(BlockSoundGroup.CANDLE)
     .noCollision().breakInstantly().dropsNothing().luminance(state -> {
         return GhostZ.CONFIG.levels.get(state.get(Wisp.LEVEL) - 1).get("luminance");
     })));
@@ -54,7 +71,10 @@ public class GRegistry {
 
 
     public static <T extends Item> T registerItem(String id, T item) {
-        GhostZ.GROUP_ITEMS.add(item);
+        ItemGroupEvents.modifyEntriesEvent(RegistryKey.of(Registries.ITEM_GROUP.getKey(), ITEM_GROUP_IDENTIFIER))
+            .register(content -> {
+                content.add(item);
+            });
         return Registry.register(Registries.ITEM, new Identifier(GhostZ.MOD_ID, id), item);
     }
 
