@@ -1,9 +1,9 @@
-# <img src="resources/ghostz_icon_round.png" width="42" height="42" align="left"> GhostZ 
+# <img src="https://raw.githubusercontent.com/itzTerra/GhostZ/main/resources/ghostz_icon_round.png" width="42" height="42" align="left"> GhostZ 
 
 
 GhostZ is a small lightweight **FabricMC** mod. It adds a very unique **Ghost Lantern** item - a lighting tool with which you will never need torches for your cave or mining sessions again!
 
-<img src="resources/cave.png" width="300" align="right">
+<img src="https://raw.githubusercontent.com/itzTerra/GhostZ/main/resources/cave.png" width="300" align="right">
 
 
 ## Dependencies
