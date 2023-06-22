@@ -1,7 +1,7 @@
 # <img src="resources/ghostz_icon_round.png" width="42" height="42" align="left"> GhostZ 
 
 
-GhostZ is a small lightweight **FabricMC** mod. It adds a very unique **Ghost Lantern** item/block with which you will never need torches during your cave or stripmine sessions again!
+GhostZ is a small lightweight **FabricMC** mod. It adds a very unique **Ghost Lantern** item - a lighting tool with which you will never need torches for your cave or mining sessions again!
 
 <img src="resources/cave.png" width="300" align="right">
 
@@ -13,11 +13,12 @@ GhostZ is a small lightweight **FabricMC** mod. It adds a very unique **Ghost La
 - [Trinkets](https://www.curseforge.com/minecraft/mc-mods/trinkets) -->
 
 ## Features
-- unique item **Ghost Lantern**, which:
+- **Ghost Lantern** item, which:
   - is an upgrade of vanilla **Soul Lantern**
-  - can place small **wisps** - temporary light sources, draining **souls meter**, wisps can be sucked all at once to restore the meter
+  - can place small **wisps** - temporary light sources
+  - number of placed wisps is limited - at max, new wisp will delete the oldest, wisps can be sucked all at once to restore the meter
   - **levels up** during your adventures (by killing mobs)
-  - can be crafted into a placeable lantern
+- **Placeable Ghost Lantern** block - light-source, crafted from normal Ghost Lantern
 
 > Learn more on [Wiki](https://github.com/itzTerra/GhostZ/wiki)
 
