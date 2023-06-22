@@ -11,7 +11,7 @@ import com.terra.ghostz.item.GhostLantern;
 import com.terra.ghostz.util.GRegistry;
 
 import net.minecraft.block.Block;
-import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -24,9 +24,9 @@ public abstract class ShapelessRecipeMixin {
     public abstract ItemStack getOutput(DynamicRegistryManager registryManager);
 
     @Inject(method = "craft", at = @At("HEAD"), cancellable = true)
-    private void onCraft(CraftingInventory craftingInventory, DynamicRegistryManager dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir) {
-        for (int i = 0; i < craftingInventory.size(); i++){
-            ItemStack stack = craftingInventory.getStack(i);
+    private void onCraft(RecipeInputInventory recipeInputInventory, DynamicRegistryManager dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir) {
+        for (int i = 0; i < recipeInputInventory.size(); i++){
+            ItemStack stack = recipeInputInventory.getStack(i);
 
             if (stack.getItem() instanceof GhostLantern){
                 ItemStack placeableLantern = this.getOutput(dynamicRegistryManager).copy();

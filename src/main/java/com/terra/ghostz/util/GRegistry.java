@@ -1,7 +1,5 @@
 package com.terra.ghostz.util;
 
-import java.util.ArrayList;
-
 import com.terra.ghostz.GhostZ;
 import com.terra.ghostz.block.GhostLanternBlock;
 import com.terra.ghostz.block.Wisp;
@@ -18,9 +16,9 @@ import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.DefaultParticleType;
@@ -35,7 +33,8 @@ import net.minecraft.util.Rarity;
 public class GRegistry {
     
     private static final Identifier ITEM_GROUP_IDENTIFIER = new Identifier(GhostZ.MOD_ID, "item_group");
-    private static final ItemGroup ITEM_GROUP = Registry.register(Registries.ITEM_GROUP, 
+    private static final ItemGroup ITEM_GROUP = Registry.register(
+        Registries.ITEM_GROUP, 
         ITEM_GROUP_IDENTIFIER, 
         FabricItemGroup.builder()
             .icon(() -> new ItemStack(GRegistry.GHOST_LANTERN_BLOCK))
@@ -43,38 +42,61 @@ public class GRegistry {
             .build()
     );
 
-    public static final Wisp WISP = registerBlock("wisp", new Wisp(FabricBlockSettings.copyOf(Material.DECORATION).sounds(BlockSoundGroup.CANDLE)
-    .noCollision().breakInstantly().dropsNothing().luminance(state -> {
-        return GhostZ.CONFIG.levels.get(state.get(Wisp.LEVEL) - 1).get("luminance");
-    })));
+    public static final Wisp WISP = registerBlock("wisp", 
+        new Wisp(FabricBlockSettings.create()
+            .noCollision()
+            .notSolid()
+            .pistonBehavior(PistonBehavior.DESTROY)
+            .breakInstantly()
+            .dropsNothing()
+            .luminance(state -> {return GhostZ.CONFIG.levels.get(state.get(Wisp.LEVEL) - 1).get("luminance");})
+            .sounds(BlockSoundGroup.CANDLE)
+        )
+    );
     
-    public static final BlockEntityType<WispEntity> WISP_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE,
-    new Identifier(GhostZ.MOD_ID, "wisp_entity"),
-    FabricBlockEntityTypeBuilder.create(WispEntity::new, WISP).build());
+    public static final BlockEntityType<WispEntity> WISP_ENTITY = Registry.register(
+        Registries.BLOCK_ENTITY_TYPE,
+        new Identifier(GhostZ.MOD_ID, "wisp_entity"),
+        FabricBlockEntityTypeBuilder.create(WispEntity::new, WISP).build()
+    );
     
-    public static final DefaultParticleType WISP_GLITTER = Registry.register(Registries.PARTICLE_TYPE, new Identifier(GhostZ.MOD_ID, "wisp_glitter"),
-    FabricParticleTypes.simple());
+    public static final DefaultParticleType WISP_GLITTER = Registry.register(
+        Registries.PARTICLE_TYPE, 
+        new Identifier(GhostZ.MOD_ID, "wisp_glitter"),
+        FabricParticleTypes.simple()
+    );
 
 
-    public static final GhostLantern GHOST_LANTERN = registerItem("ghost_lantern",
-    new GhostLantern(WISP, new FabricItemSettings().maxCount(1).rarity(Rarity.UNCOMMON).fireproof()));
-    
+    public static final GhostLantern GHOST_LANTERN = registerItem("ghost_lantern", 
+        new GhostLantern(WISP, new FabricItemSettings()
+            .maxCount(1)
+            .rarity(Rarity.UNCOMMON)
+        )
+    );
     
     public static final GhostLanternBlock GHOST_LANTERN_BLOCK = registerBlock("ghost_lantern_block",
-            new GhostLanternBlock(FabricBlockSettings.copy(Blocks.SOUL_LANTERN)), new FabricItemSettings().maxCount(1).rarity(Rarity.UNCOMMON));
+        new GhostLanternBlock(FabricBlockSettings.copy(Blocks.SOUL_LANTERN)), 
+        new FabricItemSettings()
+            .maxCount(1)
+            .rarity(Rarity.UNCOMMON)
+    );
 
-    public static final BlockEntityType<GhostLanternBlockEntity> GHOST_LANTERN_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE,
-            new Identifier(GhostZ.MOD_ID, "ghost_lantern_block"),
-            FabricBlockEntityTypeBuilder.create(GhostLanternBlockEntity::new, GHOST_LANTERN_BLOCK).build());
+    public static final BlockEntityType<GhostLanternBlockEntity> GHOST_LANTERN_BLOCK_ENTITY = Registry.register(
+        Registries.BLOCK_ENTITY_TYPE,
+        new Identifier(GhostZ.MOD_ID, "ghost_lantern_block"),
+        FabricBlockEntityTypeBuilder.create(GhostLanternBlockEntity::new, GHOST_LANTERN_BLOCK).build()
+    );
 
 
+    // ############################################## METHODS #############################################
 
 
     public static <T extends Item> T registerItem(String id, T item) {
         ItemGroupEvents.modifyEntriesEvent(RegistryKey.of(Registries.ITEM_GROUP.getKey(), ITEM_GROUP_IDENTIFIER))
             .register(content -> {
                 content.add(item);
-            });
+            }
+        );
         return Registry.register(Registries.ITEM, new Identifier(GhostZ.MOD_ID, id), item);
     }
 
@@ -83,7 +105,7 @@ public class GRegistry {
     }
 
     public static <T extends Block, S extends Item.Settings> T registerBlock(String id, T block, S itemSettings) {
-        Registry.register(Registries.BLOCK, new Identifier(GhostZ.MOD_ID, id), block);
+        registerBlock(id, block);
         registerItem(id, new BlockItem(block, itemSettings));
         return block;
     }
