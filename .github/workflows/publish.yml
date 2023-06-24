@@ -8,7 +8,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
   
   MOD_VERSION_IN_NAME: "1.0.1"
-  MC_VERSION_IN_NAME: "1.20"
+  MC_VERSION_IN_NAME: "1.19.4"
 
 permissions:
   contents: write
@@ -52,7 +52,7 @@ jobs:
 
           name: "[${{env.MC_VERSION_IN_NAME}}] GhostZ ${{env.MOD_VERSION_IN_NAME}}"
           game-versions: |
-            [1.20, 1.20.1]
+            1.19.4
           
           version-type: release
           changelog: ""
