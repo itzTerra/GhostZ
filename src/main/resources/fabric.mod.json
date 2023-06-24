@@ -1,43 +1,38 @@
 {
-	"schemaVersion": 1,
-	"id": "ghostz",
-	"version": "${version}",
-	"name": "GhostZ",
-	"description": "A lightweight mod currently adding a unique Ghost Lantern item for temporary light sources - wisps.",
-	"authors": [
-		"Terra"
-	],
-	"contact": {
-		"homepage": "https://github.com/itzTerra/GhostZ",
-		"sources": "https://github.com/itzTerra/GhostZ",
-        "issues": "https://github.com/itzTerra/GhostZ/issues"
-	},
-	"license": "MIT",
-	"icon": "assets/ghostz/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"com.terra.ghostz.GhostZ"
-		],
-		"client": [
-			"com.terra.ghostz.GhostZClient"
-		],
-		"fabric-datagen": [
-			"com.terra.ghostz.GhostZDataGenerator"
-		]
-	},
-	"mixins": [
-		"ghostz.mixins.json",
-		{
-			"config": "ghostz.client.mixins.json",
-			"environment": "client"
-		}
-	],
-	"depends": {
-		"fabricloader": ">=0.14.19",
-		"minecraft": "~1.19.3",
-		"java": ">=17",
-		"fabric-api": "*"
-	},
-	"suggests": {}
+  "schemaVersion": 1,
+  "id": "ghostz",
+  "version": "${version}",
+  "name": "GhostZ",
+  "description": "A lightweight mod currently adding a unique Ghost Lantern item for temporary light sources - wisps.",
+  "authors": ["Terra"],
+  "contact": {
+    "homepage": "https://github.com/itzTerra/GhostZ",
+    "sources": "https://github.com/itzTerra/GhostZ",
+    "issues": "https://github.com/itzTerra/GhostZ/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/ghostz/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.terra.ghostz.GhostZ"],
+    "client": ["com.terra.ghostz.GhostZClient"],
+    "fabric-datagen": ["com.terra.ghostz.GhostZDataGenerator"]
+  },
+  "mixins": [
+    "ghostz.mixins.json",
+    {
+      "config": "ghostz.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.19",
+    "minecraft": "~1.19.3",
+    "java": ">=17",
+    "fabric-api": "*"
+  },
+  "recommends": {},
+  "suggests": {},
+  "conflicts": {},
+  "breaks": {}
 }
