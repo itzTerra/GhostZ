@@ -72,22 +72,23 @@ public class GhostLanternBlock extends LanternBlock implements BlockEntityProvid
         }
     }
 
-    @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (!world.isClient){
-            player.sendMessage(Text.literal("State"+state), false);
+    // Debugging only
+    // @Override
+    // public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    //     if (!world.isClient){
+    //         player.sendMessage(Text.literal("State"+state), false);
 
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof GhostLanternBlockEntity){
-                GhostLanternBlockEntity lanternBlockEntity = (GhostLanternBlockEntity)blockEntity;
-                player.sendMessage(Text.literal(lanternBlockEntity.lanternID+" | "+lanternBlockEntity.level+" | "+lanternBlockEntity.xp), false);
-            }
+    //         BlockEntity blockEntity = world.getBlockEntity(pos);
+    //         if (blockEntity instanceof GhostLanternBlockEntity){
+    //             GhostLanternBlockEntity lanternBlockEntity = (GhostLanternBlockEntity)blockEntity;
+    //             player.sendMessage(Text.literal(lanternBlockEntity.lanternID+" | "+lanternBlockEntity.level+" | "+lanternBlockEntity.xp), false);
+    //         }
 
-            return ActionResult.SUCCESS;
-        }
+    //         return ActionResult.SUCCESS;
+    //     }
         
-        return ActionResult.PASS;
-    }
+    //     return ActionResult.PASS;
+    // }
 
     @Nullable
     @Override
