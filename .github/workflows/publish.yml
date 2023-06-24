@@ -1,0 +1,58 @@
+name: Publish on GitHub, Modrinth & CurseForge
+
+on: [workflow_dispatch]
+
+env:
+  MODRINTH_TOKEN: ${{ secrets.PUBLISH_MODRINTH_TOKEN }}
+  CURSEFORGE_TOKEN: ${{ secrets.PUBLISH_CURSEFORGE_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
+  
+  MOD_VERSION_IN_NAME: "1.0.1"
+  MC_VERSION_IN_NAME: "1.20"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Environment Variables
+        run: env
+
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: "temurin"
+          java-version: 17
+
+      - name: Make Gradle Wrapper Executable
+        if: ${{ runner.os != 'Windows' }}
+        run: chmod +x ./gradlew
+
+      - name: Build
+        run: ./gradlew clean build
+
+      - name: Publish
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          github-tag: "${{env.MOD_VERSION_IN_NAME}}-${{env.MC_VERSION_IN_NAME}}"
+          github-token: ${{env.GITHUB_TOKEN}}
+
+          modrinth-id: vcR7vUdh
+          modrinth-token: ${{env.MODRINTH_TOKEN}}
+
+          curseforge-id: 878506
+          curseforge-token: ${{env.CURSEFORGE_TOKEN}}
+
+          name: "[${{env.MC_VERSION_IN_NAME}}] GhostZ ${{env.MOD_VERSION_IN_NAME}}"
+          game-versions: |
+            [1.20, 1.20.1]
+          
+          version-type: release
+          changelog: ""
