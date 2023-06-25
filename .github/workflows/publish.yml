@@ -6,9 +6,9 @@ env:
   MODRINTH_TOKEN: ${{ secrets.PUBLISH_MODRINTH_TOKEN }}
   CURSEFORGE_TOKEN: ${{ secrets.PUBLISH_CURSEFORGE_TOKEN }}
   GITHUB_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
-  
+
   MOD_VERSION_IN_NAME: "1.0.1"
-  MC_VERSION_IN_NAME: "testing"
+  MC_VERSION_IN_NAME: "1.20"
 
 permissions:
   contents: write
@@ -28,8 +28,8 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v2
         with:
-            distribution: "temurin"
-            java-version: 17
+          distribution: "temurin"
+          java-version: 17
 
       - name: Make Gradle Wrapper Executable
         if: ${{ runner.os != 'Windows' }}
@@ -41,15 +41,24 @@ jobs:
       - name: MC-Publish
         uses: Kir-Antipov/mc-publish@v3.3
         with:
+          github-tag: "${{env.MOD_VERSION_IN_NAME}}-${{env.MC_VERSION_IN_NAME}}"
+          github-token: ${{env.GITHUB_TOKEN}}
 
           modrinth-id: vcR7vUdh
           modrinth-token: ${{env.MODRINTH_TOKEN}}
-          modrinth-featured: false
+
+          curseforge-id: 878506
+          curseforge-token: ${{env.CURSEFORGE_TOKEN}}
 
           name: "[${{env.MC_VERSION_IN_NAME}}] GhostZ ${{env.MOD_VERSION_IN_NAME}}"
+            
+          # [1.16,1.16.5) -- 1.16, 1.16.1, 1.16.2, ..., 1.16.4
+          # >=21w37a <1.18.2 -- 21w37a, 21w37b, 21w38a, 1.17, 1.17.1, ..., 1.18.1
+          # 1.19 -- 1.19
           game-versions: |
-            1.13
-            1.13.2
+            1.20
+            1.20.1
           
-          version-type: alpha
-          changelog: "test release"
+          # release/beta/alpha
+          version-type: release
+          changelog: "..."
