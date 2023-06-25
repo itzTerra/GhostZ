@@ -49,7 +49,7 @@ jobs:
           name: "[${{env.MC_VERSION_IN_NAME}}] GhostZ ${{env.MOD_VERSION_IN_NAME}}"
           game-versions: |
             1.13
-            1.16.5
+            1.13.2
           
           version-type: alpha
           changelog: "test release"
