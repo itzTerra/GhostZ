@@ -41,18 +41,14 @@ jobs:
       - name: MC-Publish
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          github-tag: "${{env.MOD_VERSION_IN_NAME}}-${{env.MC_VERSION_IN_NAME}}"
-          github-token: ${{env.GITHUB_TOKEN}}
 
-          modrinth-id: vcR7vUdh
-          modrinth-token: ${{env.MODRINTH_TOKEN}}
 
           curseforge-id: 878506
           curseforge-token: ${{env.CURSEFORGE_TOKEN}}
 
           name: "[${{env.MC_VERSION_IN_NAME}}] GhostZ ${{env.MOD_VERSION_IN_NAME}}"
           game-versions: |
-            [1.13, 1.16.5]
+            [1.13, 1.16.5)
           
           version-type: alpha
           changelog: "test release"
