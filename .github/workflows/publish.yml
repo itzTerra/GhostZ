@@ -14,7 +14,7 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
     steps:
       - name: Check Environment Variables
@@ -25,7 +25,20 @@ jobs:
         with:
           submodules: true
 
-      - name: Publish
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+            distribution: "temurin"
+            java-version: 17
+
+      - name: Make Gradle Wrapper Executable
+        if: ${{ runner.os != 'Windows' }}
+        run: chmod +x ./gradlew
+
+      - name: Build
+        run: ./gradlew clean build
+
+      - name: MC-Publish
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           github-tag: "${{env.MOD_VERSION_IN_NAME}}-${{env.MC_VERSION_IN_NAME}}"
