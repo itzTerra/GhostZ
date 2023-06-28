@@ -1,3 +1,6 @@
+<a href="https://modrinth.com/mod/ghostz">![Modrinth Downloads](https://img.shields.io/modrinth/dt/vcR7vUdh?logo=modrinth&label=%20&labelColor=%23343&color=%23222222)</a>
+<a href="https://www.curseforge.com/minecraft/mc-mods/ghostz">![Forge Downloads](https://cf.way2muchnoise.eu/878506.svg)</a>
+
 # <img src="https://raw.githubusercontent.com/itzTerra/GhostZ/main/resources/ghostz_icon_round.png" width="42" height="42" align="left"> GhostZ 
 
 
