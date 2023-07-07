@@ -6,8 +6,8 @@ env:
   MODRINTH_TOKEN: ${{ secrets.PUBLISH_MODRINTH_TOKEN }}
   CURSEFORGE_TOKEN: ${{ secrets.PUBLISH_CURSEFORGE_TOKEN }}
   GITHUB_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
-  
-  MOD_VERSION_IN_NAME: "1.0.1"
+
+  MOD_VERSION_IN_NAME: "1.0.2"
   MC_VERSION_IN_NAME: "1.19.3"
 
 permissions:
@@ -55,4 +55,4 @@ jobs:
             1.19.3
           
           version-type: release
-          changelog: ""
+          changelog: "stackOverflow bugfix"
