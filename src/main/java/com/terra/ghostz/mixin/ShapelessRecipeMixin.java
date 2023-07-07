@@ -29,7 +29,7 @@ public abstract class ShapelessRecipeMixin {
 
             if (stack.getItem() instanceof GhostLantern){
                 ItemStack placeableLantern = this.getOutput().copy();
-                NbtCompound lanternNbt = GhostLantern.pingNbt(stack);
+                NbtCompound lanternNbt = GhostLantern.pingNbt(stack, true);
 
                 NbtCompound placeableBlockEntityNbt = new NbtCompound();
                 placeableBlockEntityNbt.putUuid(GhostLantern.ID_TAG, lanternNbt.getUuid(GhostLantern.ID_TAG));
@@ -47,7 +47,9 @@ public abstract class ShapelessRecipeMixin {
                 NbtCompound placeableNbt = BlockItem.getBlockEntityNbt(stack);
                 
                 NbtCompound lanternNbt = lantern.getOrCreateNbt();
-                lanternNbt.putUuid(GhostLantern.ID_TAG, placeableNbt.getUuid(GhostLantern.ID_TAG));
+                if (placeableNbt.containsUuid(GhostLantern.ID_TAG)){
+                    lanternNbt.putUuid(GhostLantern.ID_TAG, placeableNbt.getUuid(GhostLantern.ID_TAG));
+                }
                 lanternNbt.putInt(GhostLantern.LEVEL_TAG, placeableNbt.getInt(GhostLantern.LEVEL_TAG));
                 lanternNbt.putInt(GhostLantern.XP_TAG, placeableNbt.getInt(GhostLantern.XP_TAG));
                 GhostLantern.pingNbt(lantern);
