@@ -27,8 +27,9 @@ public abstract class ShapelessRecipeMixin {
 
     @Inject(method = "craft", at = @At("HEAD"), cancellable = true)
     private void onCraft(RecipeInputInventory recipeInputInventory, DynamicRegistryManager dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir) {
-        List<ItemStack> inputStacks = recipeInputInventory.getInputStacks();
-        for (ItemStack stack : inputStacks) {
+        for (int i = 0; i < recipeInputInventory.size(); i++){
+            ItemStack stack = recipeInputInventory.getStack(i);
+            
             if (stack.getItem() instanceof GhostLantern){
                 ItemStack placeableLantern = this.getOutput(dynamicRegistryManager).copy();
                 NbtCompound lanternNbt = GhostLantern.pingNbt(stack, true);
