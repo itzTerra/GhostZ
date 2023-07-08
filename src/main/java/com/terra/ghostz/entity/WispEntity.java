@@ -33,7 +33,7 @@ public class WispEntity extends BlockEntity {
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
 
-        playerID = nbt.getUuid("playerID");
-        lanternID = nbt.getUuid("lanternID");
+        playerID = nbt.containsUuid("playerID") ? nbt.getUuid("playerID") : null;
+        lanternID = nbt.containsUuid("lanternID") ? nbt.getUuid("lanternID") : null;
     }
 }

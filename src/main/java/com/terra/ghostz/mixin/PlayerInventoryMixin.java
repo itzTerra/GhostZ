@@ -16,13 +16,16 @@ import net.minecraft.item.ItemStack;
 
 @Mixin(PlayerInventory.class)
 public abstract class PlayerInventoryMixin {
+    // Sucks wisps on /clear command
     @Inject(method = "remove", at = @At(value = "HEAD"))
     private void onRemove(Predicate<ItemStack> shouldRemove, int maxCount, Inventory craftingInventory, CallbackInfoReturnable<Integer> cir){
         PlayerInventory playerInventory = (PlayerInventory)(Object)this;
 
         ArrayList<ItemStack> lanterns = GhostLantern.lanternsInInventory(playerInventory);
         for (ItemStack lantern : lanterns) {
-            GhostLantern.suckWisps(lantern, playerInventory.player.getWorld());
+            if (shouldRemove.test(lantern)){
+                GhostLantern.suckWisps(lantern, playerInventory.player.getWorld());
+            }
         }
     }
 }
