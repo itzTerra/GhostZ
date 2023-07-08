@@ -61,4 +61,4 @@ jobs:
           
           # release/beta/alpha
           version-type: release
-          changelog: "Fixes:\n - bug when crafting placeable lantern from unused lantern didn't work"
+          changelog: "Fixes:\n - crafting placeable lantern from unused lantern didn't work \n - safer uuid getting and /clear mixin"
