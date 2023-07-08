@@ -50,13 +50,20 @@ public abstract class ScreenHandlerMixin {
             return movedStack;
         }
         
-        UUID lanternID = GhostLantern.pingNbt(movedStack).getUuid(GhostLantern.ID_TAG);
-        DefaultedList<ItemStack> inventoryStacks = screenHandler.getStacks();
-        for (ItemStack stack : inventoryStacks) {
-            if (GhostLantern.isLantern(stack) && GhostLantern.pingNbt(stack).getUuid(GhostLantern.ID_TAG).equals(lanternID)){
-                GhostLantern.suckWisps(stack, player.getWorld(), player);
+        NbtCompound lanternNbt = GhostLantern.pingNbt(movedStack);
+        if (lanternNbt.containsUuid(GhostLantern.ID_TAG)){
+            DefaultedList<ItemStack> inventoryStacks = screenHandler.getStacks();
+            for (ItemStack stack : inventoryStacks) {
+                if (GhostLantern.isLantern(stack)){
+                    NbtCompound lantern2Nbt = GhostLantern.pingNbt(stack);
+                    if (lantern2Nbt.containsUuid(GhostLantern.ID_TAG) && 
+                        lantern2Nbt.getUuid(GhostLantern.ID_TAG).equals(lanternNbt.getUuid(GhostLantern.ID_TAG))){
+                        GhostLantern.suckWisps(stack, player.getWorld(), player);
+                    }
+                } 
             }
         }
+        
         return movedStack;
     }
     
