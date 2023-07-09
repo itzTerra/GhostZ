@@ -9,7 +9,7 @@
         "PlayerInventoryAccessor",
         "PlayerInventoryMixin",
         "ShapelessRecipeMixin",
-        "ItemFrameEntityMixin",
+        "ItemFrameEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
