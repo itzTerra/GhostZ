@@ -34,7 +34,6 @@ Feel free to use this mod in any modpack, it *shouldn't* break anything :).
 ## Plans
 - cooler visuals
 - Haunted Graveyard/Crypt structures with naturally spawning Ghost Lanterns
-- **Trinkets** support
 - *...ghosts?*
 
 > and more in [Discussions](https://github.com/itzTerra/GhostZ/discussions/3)
