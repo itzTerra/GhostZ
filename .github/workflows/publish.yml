@@ -7,7 +7,7 @@ env:
   CURSEFORGE_TOKEN: ${{ secrets.PUBLISH_CURSEFORGE_TOKEN }}
   GITHUB_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
 
-  MOD_VERSION_IN_NAME: "1.0.2"
+  MOD_VERSION_IN_NAME: "1.0.3"
   MC_VERSION_IN_NAME: "1.19.4"
 
 permissions:
@@ -55,4 +55,4 @@ jobs:
             1.19.4
           
           version-type: release
-          changelog: "stackOverflow bugfix"
+          changelog: "Fixes:\n - crafting placeable lantern from unused lantern didn't work \n - safer uuid getting and /clear mixin"
